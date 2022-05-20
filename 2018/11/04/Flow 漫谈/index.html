@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1.类型系统请先思考一个问题：你见过没有类型的编程语言吗？答案当然是没有，类型是一门编程语言的基础。这是由于在计算机中，任何数值都是以一组比特简单组成的，但不同类型需要不同的硬件单元参与计算，没有类型，硬件无法区分存储器地址、脚本、字符、整数、以及浮点数。所以任何一门编程语言都有类型系统，只是有强弱之分、静态动态之分。Javascript 就是一门弱类型的、动态检查的语言。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flow 与 Typescript">
+<meta property="og:url" content="http://wuchengran.com/2018/11/04/Flow 漫谈/index.html">
+<meta property="og:site_name" content="wave52">
+<meta property="og:description" content="1.类型系统请先思考一个问题：你见过没有类型的编程语言吗？答案当然是没有，类型是一门编程语言的基础。这是由于在计算机中，任何数值都是以一组比特简单组成的，但不同类型需要不同的硬件单元参与计算，没有类型，硬件无法区分存储器地址、脚本、字符、整数、以及浮点数。所以任何一门编程语言都有类型系统，只是有强弱之分、静态动态之分。Javascript 就是一门弱类型的、动态检查的语言。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-11-23T16:13:48.179Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flow 与 Typescript">
+<meta name="twitter:description" content="1.类型系统请先思考一个问题：你见过没有类型的编程语言吗？答案当然是没有，类型是一门编程语言的基础。这是由于在计算机中，任何数值都是以一组比特简单组成的，但不同类型需要不同的硬件单元参与计算，没有类型，硬件无法区分存储器地址、脚本、字符、整数、以及浮点数。所以任何一门编程语言都有类型系统，只是有强弱之分、静态动态之分。Javascript 就是一门弱类型的、动态检查的语言。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wuchengran.com/2018/11/04/Flow 漫谈/"/>
+
+
+
+
+
+  <title>Flow 与 Typescript | wave52</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wave52</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wuchengran.com/2018/11/04/Flow 漫谈/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="伍二娃">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wave52">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Flow 与 Typescript</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-04T23:51:34+08:00">
+                2018-11-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1-类型系统"><a href="#1-类型系统" class="headerlink" title="1.类型系统"></a>1.类型系统</h3><p>请先思考一个问题：你见过没有类型的编程语言吗？答案当然是没有，类型是一门编程语言的基础。这是由于在计算机中，任何数值都是以一组比特简单组成的，但不同类型需要不同的硬件单元参与计算，没有类型，硬件无法区分存储器地址、脚本、字符、整数、以及浮点数。所以任何一门编程语言都有类型系统，只是有强弱之分、静态动态之分。Javascript 就是一门弱类型的、动态检查的语言。</p>
+<a id="more"></a>
+<h3 id="2-为什么需要引入静态类型系统"><a href="#2-为什么需要引入静态类型系统" class="headerlink" title="2.为什么需要引入静态类型系统"></a>2.为什么需要引入静态类型系统</h3><ul>
+<li>提高代码的可读性</li>
+<li>方便对代码分析</li>
+<li>保证重构的可靠性</li>
+<li>通常 IDE 能更好地支持</li>
+<li>编码阶段可以捕获类型相关错误</li>
+</ul>
+<p>可以看出，引入静态类型系统主要是方便代码的维护。</p>
+<h3 id="3-Flow-vs-TypeScript"><a href="#3-Flow-vs-TypeScript" class="headerlink" title="3.Flow vs TypeScript"></a>3.Flow vs TypeScript</h3><p>众所周知，flow 是 React 源码中所使用的静态类型检查器，但是可能并没有自己用过，由于大家对 Typescript 更加熟悉，我通过与它对比，来为大家浅析下 flow 的特点。</p>
+<h4 id="3-1-区别"><a href="#3-1-区别" class="headerlink" title="3.1 区别"></a>3.1 区别</h4><p><strong>TyepScript：使用方便，工具支持健全。</strong></p>
+<ul>
+<li>微软出品，C# 之父 Anders Hejlsberg 参与设计</li>
+<li>基于 ES6 语法（也包含是 ES7 / ES8 ）</li>
+<li>类型是可选的</li>
+<li>可以编译出纯净、 简洁的 JavaScript 代码</li>
+</ul>
+<p><strong>Flow：健全，没有把运行时异常作为目标。</strong></p>
+<ul>
+<li>Facebook 出品</li>
+<li>是一种静态类型检查器，旨在快速查找 JavaScript 应用程序中的错误</li>
+<li>不是编译器，而是检查器</li>
+<li>可以很容易地通过 babel 在运行时删除类型注释</li>
+</ul>
+<h4 id="3-2-实例"><a href="#3-2-实例" class="headerlink" title="3.2 实例"></a>3.2 实例</h4><h5 id="3-2-1-基本"><a href="#3-2-1-基本" class="headerlink" title="3.2.1 基本"></a>3.2.1 基本</h5><p><strong>TyepScript:</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj: <span class="built_in">string</span>;</span><br><span class="line">obj = <span class="string">'yo'</span>;</span><br><span class="line"><span class="comment">// Error: Type 'number' is not assignable to type 'string'.</span></span><br><span class="line">obj = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// types can be inferred (return type)</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayIt</span>(<span class="params">what: <span class="built_in">string</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`Saying: <span class="subst">$&#123;what&#125;</span>`</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> said: <span class="built_in">string</span> = sayIt(obj);</span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Sayer &#123;</span><br><span class="line">  <span class="comment">// mandatory</span></span><br><span class="line">  what: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params">what: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.what = what;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// return type if you want to</span></span><br><span class="line">  sayIt(): <span class="built_in">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`Saying: <span class="subst">$&#123;this.what&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Flow:</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj: string;</span><br><span class="line">obj = <span class="string">'yo'</span>;</span><br><span class="line"><span class="comment">// Error: number: This type is incompatible with string</span></span><br><span class="line">obj = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayIt</span>(<span class="params">what: string</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`Saying: <span class="subst">$&#123;what&#125;</span>`</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> said: string = sayIt(obj);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sayer</span> </span>&#123;</span><br><span class="line">  what: string;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(what: string) &#123;</span><br><span class="line">    <span class="keyword">this</span>.what = what;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  sayIt(): string &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`Saying: <span class="subst">$&#123;<span class="keyword">this</span>.what&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>没错，基本功能上来看，两者完全一样</p>
+<h5 id="3-2-2-非空类型（Non-Nullable-Types）"><a href="#3-2-2-非空类型（Non-Nullable-Types）" class="headerlink" title="3.2.2 非空类型（Non-Nullable Types）"></a>3.2.2 非空类型（Non-Nullable Types）</h5><p><strong>TyepScript:</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">num: <span class="built_in">number</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (num &gt; <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'cool'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// cool</span></span><br><span class="line"><span class="keyword">const</span> result: <span class="built_in">string</span> = foo(<span class="number">100</span>);</span><br><span class="line"><span class="built_in">console</span>.log(result.toString());</span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// still cool?</span></span><br><span class="line"><span class="built_in">console</span>.log(foo(<span class="number">1</span>).toString());</span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// error at runtime</span></span><br><span class="line"><span class="string">"Cannot read property 'toString' of undefined"</span>;</span><br></pre></td></tr></table></figure>
+<p>TypeScript 不 catch 这个</p>
+<p><strong>Flow:</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">num: number</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (num &gt; <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'cool'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// error: call of method `toString`.</span></span><br><span class="line"><span class="comment">// Method cannot be called on possibly null value</span></span><br><span class="line"><span class="built_in">console</span>.log(foo(<span class="number">100</span>).toString());</span><br></pre></td></tr></table></figure>
+<p>Flow 可以 catch 这个，为什么呢？<br>因为 FLow 不会将字符串推断为返回类型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// error: return undefined. This type is incompatible with string</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">num: number</span>): <span class="title">string</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (num &gt; <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'cool'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// nullable type: the one inferred</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">num: number</span>): <span class="title">string</span> | <span class="title">void</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (num &gt; <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'cool'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// to fix this, we need to check the result</span></span><br><span class="line"><span class="keyword">const</span> fooed: string | <span class="keyword">void</span> = foo(<span class="number">100</span>);</span><br><span class="line"><span class="keyword">if</span> (fooed) &#123;</span><br><span class="line">  fooed.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是 TypeScript 2.x 也可以 catch 这个了，通过开启<code>strictNullChecks</code><br>总结一下：</p>
+<ul>
+<li>在 TypeScript 1 中类型默认是可空的</li>
+<li>在 TypeScript 1.x 中不为空的限制是可能的了</li>
+<li>在 Flow 中类型默认是不可空的。</li>
+<li>在 TysScript 2.x 中在“TSCONFIG.JSON”中使用<code>strictNullChecks</code>默认类型不可空。</li>
+</ul>
+<h5 id="3-2-3-注意"><a href="#3-2-3-注意" class="headerlink" title="3.2.3 注意"></a>3.2.3 注意</h5><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Person &#123;</span><br><span class="line">  name: <span class="built_in">string</span>;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// why no error?</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> olli: Person = <span class="keyword">new</span> Person();</span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// issues error as expected</span></span><br><span class="line"><span class="keyword">const</span> daniel: Person = &#123;&#125;;</span><br></pre></td></tr></table></figure>
+<p>Flow 和 TypeScript 2.0 都不能 catch 这个，但是 TypeScript 中这个不会被修复了。</p>
+<h4 id="3-3-泛型"><a href="#3-3-泛型" class="headerlink" title="3.3 泛型"></a>3.3 泛型</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Animal &#123;</span><br><span class="line">  name: <span class="built_in">string</span>;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params">name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Dog <span class="keyword">extends</span> Animal &#123;</span><br><span class="line">  <span class="comment">// just to make this different from cat</span></span><br><span class="line">  goodBoyFactor: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Cat <span class="keyword">extends</span> Animal &#123;</span><br><span class="line">  purrFactor: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>泛型：类型可以由其他参数化</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> cats: <span class="built_in">Array</span>&lt;Cat&gt; = []; <span class="comment">// can only contain cats</span></span><br><span class="line"><span class="keyword">let</span> animals: <span class="built_in">Array</span>&lt;Animal&gt; = []; <span class="comment">// can only contain animals</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// nope, no cat</span></span><br><span class="line">cats.push(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// nope, no cat</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// cool, is a cat</span></span><br><span class="line">cats.push(<span class="keyword">new</span> Cat(<span class="string">'Purry'</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// cool, cat is a sub type of animal</span></span><br><span class="line">animals.push(<span class="keyword">new</span> Cat(<span class="string">'Purry'</span>));</span><br></pre></td></tr></table></figure>
+<p>到目前为止，Flow 和 TypeScript 的工作方式是一样的。但是…</p>
+<p><strong>TypeScript:</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> cats: <span class="built_in">Array</span>&lt;Cat&gt; = []; <span class="comment">// can only contain cats</span></span><br><span class="line"><span class="keyword">let</span> animals: <span class="built_in">Array</span>&lt;Animal&gt; = []; <span class="comment">// can only contain animals</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// error TS2322: Type 'Animal[]' is not assignable to type 'Cat[]'.</span></span><br><span class="line"><span class="comment">//  Type 'Animal' is not assignable to type 'Cat'.</span></span><br><span class="line"><span class="comment">//    Property 'purrFactor' is missing in type 'Animal'.</span></span><br><span class="line">cats = animals;</span><br><span class="line"></span><br><span class="line"><span class="comment">// wow, works, but is no longer safe</span></span><br><span class="line">animals = cats;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ouch:</span></span><br><span class="line">cats.forEach(<span class="function"><span class="params">cat</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">`Cat: <span class="subst">$&#123;cat.name&#125;</span>`</span>));</span><br><span class="line"><span class="comment">// Cat: Purry</span></span><br><span class="line"><span class="comment">// Cat: Brutus</span></span><br><span class="line"><span class="comment">// Cat: Twinky</span></span><br></pre></td></tr></table></figure>
+<p>TypeScript 允许鸟和狗成为猫 :)</p>
+<p><strong>Flow:</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> cats: <span class="built_in">Array</span>&lt;Cat&gt; = []; <span class="comment">// can only contain cats</span></span><br><span class="line"><span class="keyword">let</span> animals: <span class="built_in">Array</span>&lt;Animal&gt; = []; <span class="comment">// can only contain animals</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ERROR</span></span><br><span class="line"><span class="comment">// property `purrFactor` of Cat. Property not found in Animal</span></span><br><span class="line">cats = animals;</span><br><span class="line"></span><br><span class="line"><span class="comment">// same ERROR</span></span><br><span class="line">animals = cats;</span><br></pre></td></tr></table></figure>
+<p>但 Flow 不会<br>这是为什么呢？</p>
+<ul>
+<li><p>TypeScript</p>
+<ul>
+<li><p>如果要分配的类型具有更特殊的类型参数，则参数类型是兼容的</p>
+</li>
+<li><p>似乎最直观</p>
+</li>
+<li><p>允许明显错误的代码</p>
+</li>
+</ul>
+</li>
+<li><p>Flow</p>
+<ul>
+<li><p>使用泛型类型，可以从不变量（精确匹配）、协变（更特殊）和逆变（更常见）中进行选择。</p>
+</li>
+<li><p>Flow 中的数组具有不变的参数类型</p>
+</li>
+<li><p>更有表现力</p>
+</li>
+<li><p>更难理解</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-时间线"><a href="#4-时间线" class="headerlink" title="4.时间线"></a>4.时间线</h3><ul>
+<li>2012-10 ts 诞生</li>
+<li>2013-09 ts 0.9 正式版发布</li>
+<li>2014-09 ts 1.0</li>
+<li>2014-11 flow 诞生</li>
+<li>2016-07 React v15.2.0 引入 flow</li>
+<li>2016-08 <a href="https://www.tslang.cn/docs/release-notes/typescript-2.0.html" target="_blank" rel="noopener">ts 2.0</a>，引入<code>--strictNullChecks</code>，支持严格空检查</li>
+<li>2016-11 <a href="https://www.tslang.cn/docs/release-notes/typescript-2.1.html" target="_blank" rel="noopener">ts 2.1</a>，支持对象扩展运算符</li>
+<li>2017-04 <a href="https://www.tslang.cn/docs/release-notes/typescript-2.3.html" target="_blank" rel="noopener">ts 2.3</a>，支持迭代器</li>
+<li>2019-06 <a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-5.html" target="_blank" rel="noopener">ts 3.5</a>，支持<code>Omit</code> 辅助 type</li>
+<li>2019-10 <a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html" target="_blank" rel="noopener">ts 3.7</a>，支持 Optional Chaining &amp;&amp; Nullish Coalescing (可选链式调用”?.”与空值合并运算符”??”)</li>
+</ul>
+<h3 id="5-结语"><a href="#5-结语" class="headerlink" title="5.结语"></a>5.结语</h3><p>flow 的出现一定程度推动了 js 静态类型检查的流行，让 Javascript 开发者拥抱静态类型系统，也让我们尝到了静态类型的甜头，但最终发现 Typescript 才是真香，其实可以说 flow 是促进了 typescript 的发展。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/16/React Fiber 漫谈/" rel="next" title="React Fiber 漫谈">
+                <i class="fa fa-chevron-left"></i> React Fiber 漫谈
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/01/webgl入门/" rel="prev" title="WebGL入门">
+                WebGL入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="伍二娃" />
+            
+              <p class="site-author-name" itemprop="name">伍二娃</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/wave52" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/P9JlKs8JMvMso7U" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/wave52" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/wu-cheng-ran" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-类型系统"><span class="nav-number">1.</span> <span class="nav-text">1.类型系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-为什么需要引入静态类型系统"><span class="nav-number">2.</span> <span class="nav-text">2.为什么需要引入静态类型系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Flow-vs-TypeScript"><span class="nav-number">3.</span> <span class="nav-text">3.Flow vs TypeScript</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-区别"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-实例"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 实例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-1-基本"><span class="nav-number">3.2.1.</span> <span class="nav-text">3.2.1 基本</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-2-非空类型（Non-Nullable-Types）"><span class="nav-number">3.2.2.</span> <span class="nav-text">3.2.2 非空类型（Non-Nullable Types）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-3-注意"><span class="nav-number">3.2.3.</span> <span class="nav-text">3.2.3 注意</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-泛型"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 泛型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-时间线"><span class="nav-number">4.</span> <span class="nav-text">4.时间线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-结语"><span class="nav-number">5.</span> <span class="nav-text">5.结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">伍二娃</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

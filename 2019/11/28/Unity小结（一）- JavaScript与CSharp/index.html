@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="最近学习了下 Unity，使用了一段时间 C#，身为一个多语言开发者，近年来发现各种编程语言变得越来越像了。我之前在 python 中看到装饰器，结果 JavaScript 新的标准也提出装饰器；我在 swift 中发现 optional chain，结果 JavaScript 也马上要支持 optional chain；而最近学习 C#，发现了协程（Unity 提供），也不禁对比 JavaScr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity小结（一）- JavaScript 与 C#">
+<meta property="og:url" content="http://wuchengran.com/2019/11/28/Unity小结（一）- JavaScript与CSharp/index.html">
+<meta property="og:site_name" content="wave52">
+<meta property="og:description" content="最近学习了下 Unity，使用了一段时间 C#，身为一个多语言开发者，近年来发现各种编程语言变得越来越像了。我之前在 python 中看到装饰器，结果 JavaScript 新的标准也提出装饰器；我在 swift 中发现 optional chain，结果 JavaScript 也马上要支持 optional chain；而最近学习 C#，发现了协程（Unity 提供），也不禁对比 JavaScr">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-11-23T16:13:48.180Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Unity小结（一）- JavaScript 与 C#">
+<meta name="twitter:description" content="最近学习了下 Unity，使用了一段时间 C#，身为一个多语言开发者，近年来发现各种编程语言变得越来越像了。我之前在 python 中看到装饰器，结果 JavaScript 新的标准也提出装饰器；我在 swift 中发现 optional chain，结果 JavaScript 也马上要支持 optional chain；而最近学习 C#，发现了协程（Unity 提供），也不禁对比 JavaScr">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wuchengran.com/2019/11/28/Unity小结（一）- JavaScript与CSharp/"/>
+
+
+
+
+
+  <title>Unity小结（一）- JavaScript 与 C# | wave52</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wave52</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wuchengran.com/2019/11/28/Unity小结（一）- JavaScript与CSharp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="伍二娃">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wave52">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Unity小结（一）- JavaScript 与 C#</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-28T22:08:07+08:00">
+                2019-11-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近学习了下 Unity，使用了一段时间 C#，身为一个多语言开发者，近年来发现各种编程语言变得越来越像了。我之前在 python 中看到装饰器，结果 JavaScript 新的标准也提出装饰器；我在 swift 中发现 optional chain，结果 JavaScript 也马上要支持 optional chain；而最近学习 C#，发现了协程（Unity 提供），也不禁对比 JavaScript 中的协程。我发现这种对比学习，很容易把两种语言的相通知识点都掌握了，就像我之前分享过 Javascript 与 python 的区别一样，我想分享一下 JavaScript 与 C#的一点区别，也作为 Unity 学习的一段小结。</p>
+<a id="more"></a>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="1-动态-VS-静态，脚本-VS-高级？"><a href="#1-动态-VS-静态，脚本-VS-高级？" class="headerlink" title="1.动态 VS 静态，脚本 VS 高级？"></a>1.动态 VS 静态，脚本 VS 高级？</h3><p>JavaScript 是</p>
+<ul>
+<li>解释型语言：就像之前分享过的 Shell 一样，JavaScript 需要有解释器（V8）解释执行，python 同样也是</li>
+<li>动态类型</li>
+<li>脚本语言</li>
+</ul>
+<p>C# 是</p>
+<ul>
+<li>编译型语言</li>
+<li>静态类型</li>
+<li>高级语言</li>
+</ul>
+<p>可是我不禁有一个疑问，我们知道 Unity 是支持 Javascript 和 C#作为脚本语言的，咦？发现不对没有，C#怎么又成了脚本语言了。所以我会在脚本 VS 高级打个问号。其实脚本还是高级我们常常是在指它的使用场景，而且开篇也提到了，各种语言正在进化的越来越像，是解释型还是编译型还是很明确的区别，但是脚本还是高级语言区别就很模糊了。比如，JavaScript 原来在网页端，作为操作 dom 的、调用浏览器 API 的一门语言，我们就称它为脚本语言；C#在 Unity 中作为调用 Unity API 的一门语言，在这个场景里我们称它为脚本语言；而现在有了 node，JavaScript 可以运行在服务端，我们还能简单的说他叫脚本语言吗，或许我们应该换掉这种说法了，我们可以说 javascript 和 C#都可以写脚本。</p>
+<h3 id="2-跨平台，C-、-net、mono、Unity-之间的关系"><a href="#2-跨平台，C-、-net、mono、Unity-之间的关系" class="headerlink" title="2.跨平台，C#、.net、mono、Unity 之间的关系"></a>2.跨平台，C#、.net、mono、Unity 之间的关系</h3><p>那到底什么是写脚本，我们经常听到这个词，我没有去查解释，而是根据我的记忆和经验，做个总结：脚本就是在特定平台或环境（操作系统/浏览器/Unity 引擎）使用某种语言（shell/JavaScript/C#）调用该平台或环境提供的 API（os/dom api/unity api）去完成某些功能（用命令行使用操作系统/操作 dom 网页开发/开发游戏）的代码片段。这里称作代码片段而没有称作程序，是因为程序=算法+数据结构，但脚本有长有短，长的可以做游戏，短的可以是让电脑自动关机用不着什么算法数据结构。<br>Javascript 相关的平台和 API 比较熟悉了，这里还是着重说下 C#。<br>C#和 Unity 的发展包括其跨平台历史比较曲折，可以看<a href="https://www.cnblogs.com/artech/p/how-to-cross-platform-01.html" target="_blank" rel="noopener">这篇文章</a>。</p>
+<p>简单说来就是 Unity 一开始其实支持各种语言作为脚本语言调用其 API： C#、Javascript 甚至 python。其中对 C#的支持使用了当时的一个运行时 mono（这也是为什么现在 unity 中的类都叫 monobehavior），这个运行时是跨平台的，因为当时还没有.net core，当时是.net framework 不能跨平台，当时跨平台还是指 pc 和主机之间，还没有后来的 Android、ios。但是即便是主机，我们也知道市面上主机很多，跨平台完全交给 mono，unity 发展肯定受限，所以 unity 也会自己魔改 mono。详细的就看我前面分享的文章。我们说到一开始 unity 支持各种语言，但是一段时间以后，大家发现市面上 c#写的游戏多、性能好、好玩（这个当然是巧合）。于是 unity 慢慢收缩支持的语言，也慢慢优化 c#的支持，才发展到现在这个样子。</p>
+<h2 id="编程范式"><a href="#编程范式" class="headerlink" title="编程范式"></a>编程范式</h2><p>为什么当时 C#受欢迎了？其实答案和为什么现在 Javascript 开始流行了？为什么语言越来越像了？这些问题的答案一样。当然就是程序员觉得好用嘛（就是今年很多人爱提的 DX），我们就继续看看它有什么好用的特点。</p>
+<h3 id="1-OO"><a href="#1-OO" class="headerlink" title="1. OO"></a>1. OO</h3><p>我们知道 JavaScript 也可以面向对象，但是不是真正的面向对象，我这说不是好用的面向对象，即便现在有了 class 语法糖，写法上看起来都很像了，我认为最重要的一点区别就是：私有属性和方法。</p>
+<p>javascript 没有真正意义上的私有属性和方法，在 class 之外仍能取到 class 内部定义成 static 的属性或方法，这个 static 是假的！这点想想就不是很安全。</p>
+<p>Node12 居然支持了，使用#表示私有成员变量</p>
+<h3 id="2-函数式"><a href="#2-函数式" class="headerlink" title="2. 函数式"></a>2. 函数式</h3><h3 id="3-泛型"><a href="#3-泛型" class="headerlink" title="3. 泛型"></a>3. 泛型</h3><p>python 没有泛型，js 也没有泛型，我们可以和 ts 对比</p>
+<h2 id="线程模型"><a href="#线程模型" class="headerlink" title="线程模型"></a>线程模型</h2><p>C#多线程</p>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>…</p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><h3 id="1-风格"><a href="#1-风格" class="headerlink" title="1. 风格"></a>1. 风格</h3><h3 id="2-作用域"><a href="#2-作用域" class="headerlink" title="2. 作用域"></a>2. 作用域</h3><h3 id="3-包管理"><a href="#3-包管理" class="headerlink" title="3. 包管理"></a>3. 包管理</h3><h3 id="4-操作符"><a href="#4-操作符" class="headerlink" title="4. 操作符"></a>4. 操作符</h3><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="1-协程"><a href="#1-协程" class="headerlink" title="1. 协程"></a>1. 协程</h3><p>原理区别</p>
+<h3 id="2-装饰器"><a href="#2-装饰器" class="headerlink" title="2. 装饰器"></a>2. 装饰器</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/12/node-cli工具开发和原理/" rel="next" title="Node CLI 工具开发和原理">
+                <i class="fa fa-chevron-left"></i> Node CLI 工具开发和原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/07/React Hooks/" rel="prev" title="React Hooks">
+                React Hooks <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="伍二娃" />
+            
+              <p class="site-author-name" itemprop="name">伍二娃</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/wave52" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/P9JlKs8JMvMso7U" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/wave52" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/wu-cheng-ran" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-动态-VS-静态，脚本-VS-高级？"><span class="nav-number">1.1.</span> <span class="nav-text">1.动态 VS 静态，脚本 VS 高级？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-跨平台，C-、-net、mono、Unity-之间的关系"><span class="nav-number">1.2.</span> <span class="nav-text">2.跨平台，C#、.net、mono、Unity 之间的关系</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编程范式"><span class="nav-number">2.</span> <span class="nav-text">编程范式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-OO"><span class="nav-number">2.1.</span> <span class="nav-text">1. OO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-函数式"><span class="nav-number">2.2.</span> <span class="nav-text">2. 函数式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-泛型"><span class="nav-number">2.3.</span> <span class="nav-text">3. 泛型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程模型"><span class="nav-number">3.</span> <span class="nav-text">线程模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型"><span class="nav-number">4.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法"><span class="nav-number">5.</span> <span class="nav-text">语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-风格"><span class="nav-number">5.1.</span> <span class="nav-text">1. 风格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-作用域"><span class="nav-number">5.2.</span> <span class="nav-text">2. 作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-包管理"><span class="nav-number">5.3.</span> <span class="nav-text">3. 包管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-操作符"><span class="nav-number">5.4.</span> <span class="nav-text">4. 操作符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">6.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-协程"><span class="nav-number">6.1.</span> <span class="nav-text">1. 协程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-装饰器"><span class="nav-number">6.2.</span> <span class="nav-text">2. 装饰器</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">伍二娃</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="eslint 规则很多，大家肯定也没有一一看过，但是很多规则我们平时却已经在”遵守“着了，这正可谓是  道者，人之所蹈，使万物不知其所由 —— 张元浩  我们今天就来探寻下 eslint 的”道“">
+<meta property="og:type" content="article">
+<meta property="og:title" content="eslint 的“道”">
+<meta property="og:url" content="http://wuchengran.com/2020/04/01/eslint-checklist/index.html">
+<meta property="og:site_name" content="wave52">
+<meta property="og:description" content="eslint 规则很多，大家肯定也没有一一看过，但是很多规则我们平时却已经在”遵守“着了，这正可谓是  道者，人之所蹈，使万物不知其所由 —— 张元浩  我们今天就来探寻下 eslint 的”道“">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://wuchengran.com/images/eslint/eslint.jpg">
+<meta property="og:updated_time" content="2020-11-23T16:13:48.181Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="eslint 的“道”">
+<meta name="twitter:description" content="eslint 规则很多，大家肯定也没有一一看过，但是很多规则我们平时却已经在”遵守“着了，这正可谓是  道者，人之所蹈，使万物不知其所由 —— 张元浩  我们今天就来探寻下 eslint 的”道“">
+<meta name="twitter:image" content="http://wuchengran.com/images/eslint/eslint.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wuchengran.com/2020/04/01/eslint-checklist/"/>
+
+
+
+
+
+  <title>eslint 的“道” | wave52</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wave52</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wuchengran.com/2020/04/01/eslint-checklist/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="伍二娃">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wave52">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">eslint 的“道”</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-01T00:10:55+08:00">
+                2020-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>eslint 规则很多，大家肯定也没有一一看过，但是很多规则我们平时却已经在”遵守“着了，这正可谓是</p>
+<blockquote>
+<p>道者，人之所蹈，使万物不知其所由 —— 张元浩</p>
+</blockquote>
+<p>我们今天就来探寻下 eslint 的”道“</p>
+<a id="more"></a>
+<h2 id="Q：你可能会遇到-eslint-报了个错，但不知道什么原因，那么你该怎么办呢？"><a href="#Q：你可能会遇到-eslint-报了个错，但不知道什么原因，那么你该怎么办呢？" class="headerlink" title="Q：你可能会遇到 eslint 报了个错，但不知道什么原因，那么你该怎么办呢？"></a>Q：你可能会遇到 eslint 报了个错，但不知道什么原因，那么你该怎么办呢？</h2><h3 id="一-了解规则"><a href="#一-了解规则" class="headerlink" title="一.了解规则"></a>一.了解规则</h3><p><strong>eslint (没有下面带前缀的)：</strong> <a href="http://eslint.cn/docs/rules/" target="_blank" rel="noopener">http://eslint.cn/docs/rules/</a></p>
+<p>eslint 自带的规则</p>
+<p><strong>import/xxx：</strong> <a href="https://www.npmjs.com/package/eslint-plugin-import" target="_blank" rel="noopener">https://www.npmjs.com/package/eslint-plugin-import</a></p>
+<p>该插件旨在支持 ES2015+（ES6+）导入/导出语法，并防止文件路径和导入名称拼写错误的问题。</p>
+<p><strong>jsx-a11y/xxx：</strong> <a href="https://www.npmjs.com/package/eslint-plugin-jsx-a11y" target="_blank" rel="noopener">https://www.npmjs.com/package/eslint-plugin-jsx-a11y</a></p>
+<p>Static AST checker for accessibility rules on JSX elements. （静态 AST 检查器，用于 JSX 元素上的可访问性规则。）<br>不用这个插件的，eslint parse 时到 ASTNode 为 JSXxxx 就跳过去了? 不一定，比如 eslint 自带<code>jsx-quotes</code>。<br>（具体涉及 eslint 实现，见后文）</p>
+<p><strong>react/xxx：</strong> <a href="https://www.npmjs.com/package/eslint-plugin-react" target="_blank" rel="noopener">https://www.npmjs.com/package/eslint-plugin-react</a></p>
+<p>react 相关</p>
+<p><strong>react-hooks/xxx：</strong> <a href="https://www.npmjs.com/package/eslint-plugin-react-hooks" target="_blank" rel="noopener">https://www.npmjs.com/package/eslint-plugin-react-hooks</a></p>
+<p>react-hooks 相关</p>
+<p><strong>@typescript-eslint/xxx：</strong> <a href="https://www.npmjs.com/package/@typescript-eslint/eslint-plugin" target="_blank" rel="noopener">https://www.npmjs.com/package/@typescript-eslint/eslint-plugin</a></p>
+<p>typescript 相关</p>
+<p>没必要一个个规则都看，但是我们可以给这些规则分个类</p>
+<h4 id="1-风格"><a href="#1-风格" class="headerlink" title="1.风格"></a>1.风格</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'quotes'</span>: <span class="string">'single'</span>;</span><br><span class="line"><span class="comment">// "double" (默认) 要求尽可能地使用双引号</span></span><br><span class="line"><span class="comment">// "single" 要求尽可能地使用单引号</span></span><br><span class="line"><span class="comment">// "backtick" 要求尽可能地使用反勾号</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-code-review"><a href="#2-code-review" class="headerlink" title="2.code review"></a>2.code review</h4><p>不太清晰</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">var</span> foo = &#123;</span><br><span class="line">-    bar: <span class="string">"baz"</span>,</span><br><span class="line">-    qux: <span class="string">"quux"</span></span><br><span class="line">+    bar: <span class="string">"baz"</span></span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
+<p>更清晰：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">var</span> foo = &#123;</span><br><span class="line">     bar: <span class="string">"baz"</span>,</span><br><span class="line">-    qux: <span class="string">"quux"</span>,</span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'comma-dangle'</span>: [</span><br><span class="line">    <span class="string">'error'</span>,</span><br><span class="line">    &#123;</span><br><span class="line">        arrays: <span class="string">'always-multiline'</span>,</span><br><span class="line">        objects: <span class="string">'always-multiline'</span>,</span><br><span class="line">        imports: <span class="string">'always-multiline'</span>,</span><br><span class="line">        exports: <span class="string">'always-multiline'</span>,</span><br><span class="line">        functions: <span class="string">'always-multiline'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">],</span><br><span class="line"><span class="comment">// "never" (默认) 禁用拖尾逗号</span></span><br><span class="line"><span class="comment">// "always" 要求使用拖尾逗号</span></span><br><span class="line"><span class="comment">// "always-multiline" 当最后一个元素或属性与闭括号 ] 或 &#125; 在 不同的行时，要求使用拖尾逗号；当在 同一行时，禁止使用拖尾逗号。</span></span><br><span class="line"><span class="comment">// "only-multiline" 当最后一个元素或属性与闭括号 ] 或 &#125; 在 不同的行时，允许（但不要求）使用拖尾逗号；当在 同一行时，禁止使用拖尾逗号。</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-防止出错"><a href="#3-防止出错" class="headerlink" title="3.防止出错"></a>3.防止出错</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 禁用不必要的转义字符</span></span><br><span class="line"><span class="string">'no-useless-escape'</span>: <span class="string">'error'</span></span><br></pre></td></tr></table></figure>
+<p>真人真事：本地没问题，线上打包 js 中的正则字符串会转成了 unicode (我也不知为啥会转，可能和 webpack 有关)，不必要的字符不能正确识别，导致一个正则失效了。造成公司巨大损失！（这句我瞎编的）</p>
+<p><strong>正则字符组</strong>中：会改变字符组含义的才需要转义</p>
+<p>1、反斜线必须转义<br>2、方括号必须转义<br>3、[^] 在首和[-]在中必须转义</p>
+<p>所以以下常见的字符在字符组中是不需要转义的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[aeiou]</span><br><span class="line">[$.*+?&#123;&#125;()|]</span><br><span class="line">[abs^<span class="number">123</span>-]</span><br></pre></td></tr></table></figure>
+<h4 id="4-性能"><a href="#4-性能" class="headerlink" title="4.性能"></a>4.性能</h4><p>…</p>
+<h4 id="5-宿主环境"><a href="#5-宿主环境" class="headerlink" title="5.宿主环境"></a>5.宿主环境</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'no-console'</span>: <span class="string">'warn'</span></span><br></pre></td></tr></table></figure>
+<p>…</p>
+<p>其实，看看这些规则也可以了解一些 js 基础</p>
+<h3 id="二-eslint-–fix"><a href="#二-eslint-–fix" class="headerlink" title="二. eslint –fix"></a>二. eslint –fix</h3><p>为什么有些可以 fix，有些不能呢？<br>取决于相应规则的实现<br><a href="http://eslint.cn/docs/developer-guide/working-with-rules#applying-fixes" target="_blank" rel="noopener">http://eslint.cn/docs/developer-guide/working-with-rules#applying-fixes</a><br>[看源码]</p>
+<h3 id="三-eslint-disable"><a href="#三-eslint-disable" class="headerlink" title="三. eslint-disable"></a>三. eslint-disable</h3><h4 id="1-在文件中临时禁止规则出现警告"><a href="#1-在文件中临时禁止规则出现警告" class="headerlink" title="1.在文件中临时禁止规则出现警告"></a>1.在文件中临时禁止规则出现警告</h4><p>将需要忽略的代码块用注释包裹起来</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* eslint-disable */</span></span><br><span class="line">alert(<span class="string">'foo'</span>);</span><br><span class="line"><span class="comment">/* eslint-enable */</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-对指定规则的启用或者禁用警告"><a href="#2-对指定规则的启用或者禁用警告" class="headerlink" title="2.对指定规则的启用或者禁用警告"></a>2.对指定规则的启用或者禁用警告</h4><p>将需要忽略的代码块用注释包裹起来</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* eslint-disable no-alert, no-console */</span></span><br><span class="line">alert(<span class="string">'foo'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'bar'</span>);</span><br><span class="line"><span class="comment">/* eslint-enable no-alert, no-console */</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-对指定行禁用规则警告"><a href="#3-对指定行禁用规则警告" class="headerlink" title="3.对指定行禁用规则警告"></a>3.对指定行禁用规则警告</h4><p>有两种形式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">alert(<span class="string">'foo'</span>); <span class="comment">// eslint-disable-line</span></span><br><span class="line"><span class="comment">// eslint-disable-next-line</span></span><br><span class="line">alert(<span class="string">'foo'</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="4-在指定行上禁用指定的某个规则"><a href="#4-在指定行上禁用指定的某个规则" class="headerlink" title="4.在指定行上禁用指定的某个规则"></a>4.在指定行上禁用指定的某个规则</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">alert(<span class="string">'foo'</span>); <span class="comment">// eslint-disable-line no-alert</span></span><br><span class="line"><span class="comment">// eslint-disable-next-line no-alert</span></span><br><span class="line">alert(<span class="string">'foo'</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="5-在某个特定的行上禁用多个规则"><a href="#5-在某个特定的行上禁用多个规则" class="headerlink" title="5.在某个特定的行上禁用多个规则"></a>5.在某个特定的行上禁用多个规则</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">alert(<span class="string">'foo'</span>); <span class="comment">// eslint-disable-line no-alert, quotes, semi</span></span><br><span class="line"><span class="comment">// eslint-disable-next-line no-alert, quotes, semi</span></span><br><span class="line">alert(<span class="string">'foo'</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="四-使用-overrides"><a href="#四-使用-overrides" class="headerlink" title="四.使用 overrides"></a>四.使用 overrides</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"overrides"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"files"</span>: [<span class="string">"*-test.js"</span>,<span class="string">"*.spec.js"</span>],</span><br><span class="line">      <span class="string">"rules"</span>: &#123;</span><br><span class="line">        <span class="string">"no-unused-expressions"</span>: <span class="string">"off"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br></pre></td></tr></table></figure>
+<h2 id="Q：一个项目，我该如何配置它的-eslint-规则？"><a href="#Q：一个项目，我该如何配置它的-eslint-规则？" class="headerlink" title="Q：一个项目，我该如何配置它的 eslint 规则？"></a>Q：一个项目，我该如何配置它的 eslint 规则？</h2><p><strong>plugin:</strong> 扩展 eslint 规则的定义<br><strong>extends:</strong> 现成的设置好的规则，可覆盖 plugin 的默认配置，存在多个时后面的覆盖前面的<br><strong>rules:</strong> 用户配置，可覆盖 extends 中的配置<br><strong>overrides:</strong> 可针对特定文件进行校验规则的覆盖</p>
+<p><strong>env:</strong> - 指定脚本的运行环境。每种环境都有一组特定的预定义全局变量。<br><strong>globals:</strong> - 脚本在执行期间访问的额外的全局变量。</p>
+<p><strong>parser:</strong> <a href="http://eslint.cn/docs/user-guide/configuring#specifying-parser" target="_blank" rel="noopener">http://eslint.cn/docs/user-guide/configuring#specifying-parser</a><br><strong>parserOptions:</strong> <a href="http://eslint.cn/docs/user-guide/configuring#specifying-parser-options" target="_blank" rel="noopener">http://eslint.cn/docs/user-guide/configuring#specifying-parser-options</a><br>…</p>
+<h3 id="一-复杂配置–"><a href="#一-复杂配置–" class="headerlink" title="一.复杂配置–"></a>一.复杂配置–</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 原教旨主义者</span></span><br><span class="line">&#123;</span><br><span class="line">    plugins: [<span class="string">'import'</span>, <span class="string">'jsx-a11y'</span>, <span class="string">'react'</span>, <span class="string">'react-hooks'</span>, <span class="string">'@typescript-eslint'</span>],</span><br><span class="line">    extends: [</span><br><span class="line">        <span class="string">'eslint:recommended'</span>,</span><br><span class="line">        <span class="string">'plugin:import/errors'</span>,</span><br><span class="line">        <span class="string">'plugin:import/warnings'</span>,</span><br><span class="line">        <span class="string">'plugin:import/typescript'</span>,</span><br><span class="line">        <span class="string">'plugin:jsx-a11y/recommended'</span>,</span><br><span class="line">        <span class="string">'plugin:react/recommended'</span>,</span><br><span class="line">        <span class="string">'plugin:@typescript-eslint/recommended'</span>,</span><br><span class="line">        <span class="string">'prettier'</span>,</span><br><span class="line">        <span class="string">'prettier/react'</span>,</span><br><span class="line">        <span class="string">'prettier/@typescript-eslint'</span>,</span><br><span class="line">    ],</span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="comment">// 太严格了！改规则，改规则...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// or 照搬西方那套</span></span><br><span class="line">&#123;</span><br><span class="line">    plugins: [<span class="string">'react-hooks'</span>, <span class="string">'@typescript-eslint'</span>],</span><br><span class="line">    extends: [</span><br><span class="line">        <span class="string">'airbnb'</span>,</span><br><span class="line">        <span class="string">'plugin:@typescript-eslint/recommended'</span>,</span><br><span class="line">        <span class="string">'prettier'</span>,</span><br><span class="line">        <span class="string">'prettier/react'</span>,</span><br><span class="line">        <span class="string">'prettier/@typescript-eslint'</span>,</span><br><span class="line">    ],</span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="comment">// 不适合我！改规则，改规则...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&#123;</span><br><span class="line">    plugins: [<span class="string">'react-hooks'</span>, <span class="string">'@typescript-eslint'</span>],</span><br><span class="line">    extends: [</span><br><span class="line">        <span class="string">'airbnb'</span>,</span><br><span class="line">        <span class="string">'airbnb-typescript'</span>,</span><br><span class="line">        <span class="string">'prettier'</span>,</span><br><span class="line">        <span class="string">'prettier/react'</span>,</span><br><span class="line">        <span class="string">'prettier/@typescript-eslint'</span>,</span><br><span class="line">    ],</span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="comment">// 不适合我！改规则，改规则...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="二-简单配置"><a href="#二-简单配置" class="headerlink" title="二.简单配置++"></a>二.简单配置++</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 自立根生，艰苦奋斗</span></span><br><span class="line">&#123;</span><br><span class="line">    plugins: [<span class="string">'import'</span>, <span class="string">'jsx-a11y'</span>, <span class="string">'react'</span>, <span class="string">'react-hooks'</span>, <span class="string">'@typescript-eslint'</span>],</span><br><span class="line">    extends: [</span><br><span class="line">        <span class="string">'prettier'</span>,</span><br><span class="line">        <span class="string">'prettier/react'</span>,</span><br><span class="line">        <span class="string">'prettier/@typescript-eslint'</span>,</span><br><span class="line">    ],</span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="三-总结适合自己团队的配置"><a href="#三-总结适合自己团队的配置" class="headerlink" title="三.总结适合自己团队的配置"></a>三.总结适合自己团队的配置</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 走自己的特色道路</span></span><br><span class="line">&#123;</span><br><span class="line">    plugins: [<span class="string">'react-hooks'</span>, <span class="string">'@typescript-eslint'</span>],</span><br><span class="line">    extends: [</span><br><span class="line">        <span class="string">'eslint-config-xxx'</span>,</span><br><span class="line">        <span class="string">'prettier'</span>,</span><br><span class="line">        <span class="string">'prettier/react'</span>,</span><br><span class="line">        <span class="string">'prettier/@typescript-eslint'</span>,</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 那些自己特别在意的 rule 可以记下来，搞一套自己的配置 eslint-config-52wa</span></span><br><span class="line">&#123;</span><br><span class="line">    plugins: [<span class="comment">/* ... */</span>],</span><br><span class="line">    extends: [</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    ],</span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="string">'no-useless-escape'</span>: <span class="string">'error'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>@umijs/fabric</code>: <a href="https://github.com/umijs/fabric/blob/master/src/eslint.ts" target="_blank" rel="noopener">https://github.com/umijs/fabric/blob/master/src/eslint.ts</a></p>
+<p><a href="https://github.com/umijs/umi/blob/master/packages/babel-preset-umi/src/index.ts" target="_blank" rel="noopener">https://github.com/umijs/umi/blob/master/packages/babel-preset-umi/src/index.ts</a></p>
+<h2 id="Q：为什么-prettier-的配置总是写在后面？"><a href="#Q：为什么-prettier-的配置总是写在后面？" class="headerlink" title="Q：为什么 prettier 的配置总是写在后面？"></a>Q：为什么 prettier 的配置总是写在后面？</h2><p>在我们现在的工作流里，有个 lint-staged</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"lint-staged"</span>: &#123;</span><br><span class="line">    <span class="string">"linters"</span>: &#123;</span><br><span class="line">      <span class="string">"*.&#123;js,jsx,ts,tsx&#125;"</span>: [</span><br><span class="line">        <span class="string">"prettier --write"</span>,</span><br><span class="line">        <span class="string">"git add"</span>,</span><br><span class="line">        <span class="string">"eslint"</span></span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
+<p>如果 prettier 配置优先级不是最高的，会导致 prettier 完了，eslint 却通不过，陷入死循环。</p>
+<p>当然，在保证相关配置相同的情况下这个顺序是无所谓的。</p>
+<p>prettier 中的 rule 并不多，多是些”代码风格”类型的规则 <a href="https://prettier.io/playground/" target="_blank" rel="noopener">https://prettier.io/playground/</a></p>
+<h2 id="Q：eslint-如何工作的？"><a href="#Q：eslint-如何工作的？" class="headerlink" title="Q：eslint 如何工作的？"></a>Q：eslint 如何工作的？</h2><p><img src="/images/eslint/eslint.jpg" alt="1"></p>
+<p>node 命令行工具 <a href="https://github.com/eslint/eslint" target="_blank" rel="noopener">https://github.com/eslint/eslint</a></p>
+<p>vscode 插件 <a href="https://github.com/microsoft/vscode-eslint" target="_blank" rel="noopener">https://github.com/microsoft/vscode-eslint</a></p>
+<h2 id="Q：怎么搞一套自己的-config？"><a href="#Q：怎么搞一套自己的-config？" class="headerlink" title="Q：怎么搞一套自己的 config？"></a>Q：怎么搞一套自己的 config？</h2><p><a href="https://eslint.bootcss.com/docs/developer-guide/shareable-configs" target="_blank" rel="noopener">https://eslint.bootcss.com/docs/developer-guide/shareable-configs</a></p>
+<p>以 eslint-config-xxx 为例</p>
+<h2 id="Q：怎么搞个自己的规则？"><a href="#Q：怎么搞个自己的规则？" class="headerlink" title="Q：怎么搞个自己的规则？"></a>Q：怎么搞个自己的规则？</h2><p><a href="https://eslint.bootcss.com/docs/developer-guide/working-with-plugins" target="_blank" rel="noopener">https://eslint.bootcss.com/docs/developer-guide/working-with-plugins</a></p>
+<p>以 import/no-unresolved 为例<br>可以自动 fix: 以 jsx-quotes 为例</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/06/optional chain & nullish coalescing operator/" rel="next" title="optional chain & nullish coalescing operator">
+                <i class="fa fa-chevron-left"></i> optional chain & nullish coalescing operator
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/01/dva effects 进阶/" rel="prev" title="dva effects 进阶">
+                dva effects 进阶 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="伍二娃" />
+            
+              <p class="site-author-name" itemprop="name">伍二娃</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/wave52" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/P9JlKs8JMvMso7U" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/wave52" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/wu-cheng-ran" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Q：你可能会遇到-eslint-报了个错，但不知道什么原因，那么你该怎么办呢？"><span class="nav-number">1.</span> <span class="nav-text">Q：你可能会遇到 eslint 报了个错，但不知道什么原因，那么你该怎么办呢？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-了解规则"><span class="nav-number">1.1.</span> <span class="nav-text">一.了解规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-风格"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.风格</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-code-review"><span class="nav-number">1.1.2.</span> <span class="nav-text">2.code review</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-防止出错"><span class="nav-number">1.1.3.</span> <span class="nav-text">3.防止出错</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-性能"><span class="nav-number">1.1.4.</span> <span class="nav-text">4.性能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-宿主环境"><span class="nav-number">1.1.5.</span> <span class="nav-text">5.宿主环境</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-eslint-–fix"><span class="nav-number">1.2.</span> <span class="nav-text">二. eslint –fix</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-eslint-disable"><span class="nav-number">1.3.</span> <span class="nav-text">三. eslint-disable</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-在文件中临时禁止规则出现警告"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.在文件中临时禁止规则出现警告</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-对指定规则的启用或者禁用警告"><span class="nav-number">1.3.2.</span> <span class="nav-text">2.对指定规则的启用或者禁用警告</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-对指定行禁用规则警告"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.对指定行禁用规则警告</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-在指定行上禁用指定的某个规则"><span class="nav-number">1.3.4.</span> <span class="nav-text">4.在指定行上禁用指定的某个规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-在某个特定的行上禁用多个规则"><span class="nav-number">1.3.5.</span> <span class="nav-text">5.在某个特定的行上禁用多个规则</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-使用-overrides"><span class="nav-number">1.4.</span> <span class="nav-text">四.使用 overrides</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q：一个项目，我该如何配置它的-eslint-规则？"><span class="nav-number">2.</span> <span class="nav-text">Q：一个项目，我该如何配置它的 eslint 规则？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-复杂配置–"><span class="nav-number">2.1.</span> <span class="nav-text">一.复杂配置–</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-简单配置"><span class="nav-number">2.2.</span> <span class="nav-text">二.简单配置++</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-总结适合自己团队的配置"><span class="nav-number">2.3.</span> <span class="nav-text">三.总结适合自己团队的配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q：为什么-prettier-的配置总是写在后面？"><span class="nav-number">3.</span> <span class="nav-text">Q：为什么 prettier 的配置总是写在后面？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q：eslint-如何工作的？"><span class="nav-number">4.</span> <span class="nav-text">Q：eslint 如何工作的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q：怎么搞一套自己的-config？"><span class="nav-number">5.</span> <span class="nav-text">Q：怎么搞一套自己的 config？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q：怎么搞个自己的规则？"><span class="nav-number">6.</span> <span class="nav-text">Q：怎么搞个自己的规则？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">伍二娃</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

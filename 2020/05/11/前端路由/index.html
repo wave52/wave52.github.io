@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="抛砖引玉 window.location | window.history | history 库 | react-router | react-router-redux(connected-react-router) history.listen 什么时候触发？变化时触发？我调用history.replace()，但是 location 参数没变化会触发吗？ dispatch(routerRed">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端路由">
+<meta property="og:url" content="http://wuchengran.com/2020/05/11/前端路由/index.html">
+<meta property="og:site_name" content="wave52">
+<meta property="og:description" content="抛砖引玉 window.location | window.history | history 库 | react-router | react-router-redux(connected-react-router) history.listen 什么时候触发？变化时触发？我调用history.replace()，但是 location 参数没变化会触发吗？ dispatch(routerRed">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://wuchengran.com/images/router/1.jpg">
+<meta property="og:updated_time" content="2020-11-23T16:13:48.181Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端路由">
+<meta name="twitter:description" content="抛砖引玉 window.location | window.history | history 库 | react-router | react-router-redux(connected-react-router) history.listen 什么时候触发？变化时触发？我调用history.replace()，但是 location 参数没变化会触发吗？ dispatch(routerRed">
+<meta name="twitter:image" content="http://wuchengran.com/images/router/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wuchengran.com/2020/05/11/前端路由/"/>
+
+
+
+
+
+  <title>前端路由 | wave52</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wave52</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wuchengran.com/2020/05/11/前端路由/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="伍二娃">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wave52">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">前端路由</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-11T22:12:01+08:00">
+                2020-05-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="抛砖引玉"><a href="#抛砖引玉" class="headerlink" title="抛砖引玉"></a>抛砖引玉</h2><ol>
+<li>window.location | window.history | history 库 | react-router | react-router-redux(connected-react-router)</li>
+<li>history.listen 什么时候触发？变化时触发？我调用history.replace()，但是 location 参数没变化会触发吗？</li>
+<li>dispatch(routerRedux.push(…)) 为什么要这样写？history.push(…)可以吗？routerRedux 我们用对了吗？</li>
+<li>搞这么多 API 真复杂，使用浏览器原生 API 解析 url 和跳转，不香吗？香，但要避免踩坑（兼容：浏览器的兼容、hashHistory 和 browserHistory 的兼容）</li>
+</ol>
+<a id="more"></a>
+<h2 id="浏览器-API"><a href="#浏览器-API" class="headerlink" title="浏览器 API"></a>浏览器 API</h2><h3 id="location"><a href="#location" class="headerlink" title="location"></a>location</h3><p><a href="https://dev.to/samanthaming/window-location-cheatsheet-4edl" target="_blank" rel="noopener">https://dev.to/samanthaming/window-location-cheatsheet-4edl</a></p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Location" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/API/Location</a></p>
+<p>小结：</p>
+<ol>
+<li><p>window.location 与 location 是一个东西，甚至与 window.document.location 和 document.location 都是一个东西</p>
+</li>
+<li><p>掌握读写操作，读 - 知道字段含义，写 - 知道方法区别</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ancestorOrigins: DOMStringList &#123;<span class="attr">length</span>: <span class="number">0</span>&#125;</span><br><span class="line">assign: ƒ assign()</span><br><span class="line">fragmentDirective: FragmentDirective &#123;&#125;</span><br><span class="line">hash: <span class="string">"#components-table-demo-virtual-list"</span></span><br><span class="line">host: <span class="string">"ant.design"</span></span><br><span class="line">hostname: <span class="string">"ant.design"</span></span><br><span class="line">href: <span class="string">"https://ant.design/components/table-cn/?useless=1&amp;test=2#components-table-demo-virtual-list"</span></span><br><span class="line">origin: <span class="string">"https://ant.design"</span></span><br><span class="line">pathname: <span class="string">"/components/table-cn/"</span></span><br><span class="line">port: <span class="string">""</span></span><br><span class="line">protocol: <span class="string">"https:"</span></span><br><span class="line">reload: ƒ reload()</span><br><span class="line">replace: ƒ replace()</span><br><span class="line">search: <span class="string">"?useless=1&amp;test=2"</span></span><br><span class="line">toString: ƒ toString()</span><br><span class="line">valueOf: ƒ valueOf()</span><br><span class="line"><span class="built_in">Symbol</span>(<span class="built_in">Symbol</span>.toPrimitive): <span class="literal">undefined</span></span><br><span class="line">__proto__: Location</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>location.origin 会有老版浏览器兼容问题</p>
+</li>
+</ol>
+<h3 id="window-history"><a href="#window-history" class="headerlink" title="window.history"></a>window.history</h3><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/History" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/History</a></p>
+<p>window.history、history 一个东西</p>
+<p>为了与 history 库区分，以下都叫 window.history</p>
+<p>小结：</p>
+<ol>
+<li><p>出于隐私考虑，不会获取到详细的浏览历史</p>
+</li>
+<li><p><code>window.history.pushState</code>、<code>window.history.replaceState</code>：相同之处是两个 API 都会操作浏览器的历史记录，而不会引起页面的刷新；不同之处在于，pushState会增加一条新的历史记录，而replaceState则会替换当前的历史记录。</p>
+</li>
+</ol>
+<h2 id="前端路由解决方案"><a href="#前端路由解决方案" class="headerlink" title="前端路由解决方案"></a>前端路由解决方案</h2><p>什么叫前端路由：改变 URL，不会请求后端（不刷新），但是页面内容会发生变化</p>
+<p>那么有哪些情况改变 URL，不会请求后端：</p>
+<ol>
+<li>hash 变化（无论使用js、还是在地址栏输入），不会请求后端</li>
+<li><code>window.history.pushState()</code></li>
+</ol>
+<p>怎么让页面内容变化：</p>
+<p>就是要让 js 知道 url 变化了，怎么搞？</p>
+<ol>
+<li>对于方案 1 <code>window.addEventListener(&#39;hashchange&#39;, ...)</code></li>
+<li>对于方案 2 <code>window.addEventListener(&#39;popstate&#39;, ...)</code></li>
+</ol>
+<h3 id="history-库"><a href="#history-库" class="headerlink" title="history 库"></a>history 库</h3><p><a href="https://github.com/ReactTraining/history" target="_blank" rel="noopener">https://github.com/ReactTraining/history</a></p>
+<p>它封装了上面两种方案，统一了浏览器差异</p>
+<p>小结：</p>
+<ol>
+<li><p>改变 URL，不会请求后端</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">history.push(path, [state]);</span><br><span class="line">history.replace(path, [state]);</span><br><span class="line">history.go(n);</span><br><span class="line">history.goBack();</span><br><span class="line">history.goForward();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>让 js 知道 url 变化了</p>
+<p> <code>history.listen((location, action) =&gt; ...)</code>，这里的 location 可不是 window.location，但是对字段使用了相同的命名 <code>{ pathname, search, hash, state }</code>，你一定记得 <a href="mailto:history@2.x" target="_blank" rel="noopener">history@2.x</a> 有个 query 参数，在 <a href="mailto:history@3.x" target="_blank" rel="noopener">history@3.x</a> 中可以通过使用 useQueries 参数，让 location 有 query 参数，但在 <a href="mailto:history@4.x" target="_blank" rel="noopener">history@4.x</a> 完全取消了 query，为的是<a href="https://github.com/ReactTraining/history/issues/364#issuecomment-246751904" target="_blank" rel="noopener">保证 history.location 是 window.location 的严格子集</a></p>
+</li>
+<li><p>你可能不知道</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> history = createHistory(&#123;</span><br><span class="line">    basename: <span class="string">'/the/base'</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>你可能不知道</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Register a simple prompt message that will be shown the</span></span><br><span class="line"><span class="comment">// user before they navigate away from the current page.</span></span><br><span class="line"><span class="keyword">const</span> unblock = history.block(<span class="string">'Are you sure you want to leave this page?'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Or use a function that returns the message when it's needed.</span></span><br><span class="line">history.block(<span class="function">(<span class="params">location, action</span>) =&gt;</span> &#123;</span><br><span class="line"><span class="comment">// The location and action arguments indicate the location</span></span><br><span class="line"><span class="comment">// we're transitioning to and how we're getting there.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// A common use case is to prevent the user from leaving the</span></span><br><span class="line"><span class="comment">// page if there's a form they haven't submitted yet.</span></span><br><span class="line"><span class="keyword">if</span> (input.value !== <span class="string">''</span>) <span class="keyword">return</span> <span class="string">'Are you sure you want to leave this page?'</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// To stop blocking transitions, call the function returned from block().</span></span><br><span class="line">unblock();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>browserHistory 需要服务端做什么？把所有请求（或视情况而定）转发到 index.html<br> 举一个实际的例子，现在的前端 nginx，只做了域名和静态资源简单的映射<br> 如：只做了 <a href="https://zyh.group.com/" target="_blank" rel="noopener">https://zyh.group.com/</a> -&gt; <a href="https://static.group.com/zyh/index.html" target="_blank" rel="noopener">https://static.group.com/zyh/index.html</a></p>
+<p> 于是你访问 <a href="https://zyh.group.com/#/list" target="_blank" rel="noopener">https://zyh.group.com/#/list</a> -&gt; <a href="https://static.group.com/zyh/index.html#/list" target="_blank" rel="noopener">https://static.group.com/zyh/index.html#/list</a></p>
+<p> 但你访问 <a href="https://zyh.group.com/table" target="_blank" rel="noopener">https://zyh.group.com/table</a> -&gt; <a href="https://static.group.com/zyh/index.html/table" target="_blank" rel="noopener">https://static.group.com/zyh/index.html/table</a> 就出错了</p>
+<p> 需要如下配置</p>
+ <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">try_files</span> <span class="variable">$uri</span> /index.html;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 这样你访问 <a href="https://zyh.group.com/xxx/xxx" target="_blank" rel="noopener">https://zyh.group.com/xxx/xxx</a> 都会返回 <a href="https://static.group.com/zyh/index.html" target="_blank" rel="noopener">https://static.group.com/zyh/index.html</a></p>
+<p> 也可以 node 做，谁都可以做</p>
+</li>
+</ol>
+<h3 id="react-router"><a href="#react-router" class="headerlink" title="react-router"></a>react-router</h3><p><a href="https://github.com/ReactTraining/react-router" target="_blank" rel="noopener">https://github.com/ReactTraining/react-router</a></p>
+<ol>
+<li>注意大版本升级的 <a href="https://github.com/ReactTraining/react-router/blob/8365d4b2e91084265a1da7de911766169fb9e96e/CHANGES.md" target="_blank" rel="noopener">breaking changes</a>，印象中 @2.x 升 @3.x 和 @3.x 升 @4.x 时，网上都是一片<a href="https://zhuanlan.zhihu.com/p/27433116" target="_blank" rel="noopener">哀嚎</a>，据说 @4.x 升 @5.x 很<a href="https://www.oschina.net/news/105339/react-router-5-released" target="_blank" rel="noopener">平稳</a></li>
+<li>@4.x 是有一波大的重构，有了<code>&lt;Switch /&gt;</code>，一开始还不明白这是干嘛的，其实就如同 js 中的 switch， 依次匹配，匹配成功则停止，是为了防止 url 匹配到多个符合条件的路由</li>
+<li><code>&lt;Link /&gt;</code> 组件和 <code>&lt;a /&gt;</code> 标签一样吗？</li>
+<li>官方说的 react-router-redux 已经不支持 <a href="mailto:react-router@4.x" target="_blank" rel="noopener">react-router@4.x</a> 了</li>
+</ol>
+<h3 id="react-router-redux"><a href="#react-router-redux" class="headerlink" title="react-router-redux"></a>react-router-redux</h3><p><a href="https://github.com/reactjs/react-router-redux" target="_blank" rel="noopener">https://github.com/reactjs/react-router-redux</a></p>
+<p>同步 router 和 redux</p>
+<p>小结：</p>
+<ol>
+<li><p>为什么不维护？很多依赖的 react api 即将废弃，需要一波重构，结果社区已经有人搞好了。用的时候也会看到很多 warning，并且放到 react-router 中维护了，但是只维护 @4.x，@5.x 以上可以看到都删掉了，之后得改用 connected-react-router，dva <a href="https://github.com/dvajs/dva/blob/master/packages/dva/src/index.js" target="_blank" rel="noopener">最新的代码</a>中都改了<br><img src="/images/router/1.jpg" alt="图1"></p>
+</li>
+<li><p>都已经不维护了，才发现之前根本没用对</p>
+<p> <a href="https://github.com/ReactTraining/react-router/blob/v4.3.1/packages/react-router-redux/README.md" target="_blank" rel="noopener">https://github.com/ReactTraining/react-router/blob/v4.3.1/packages/react-router-redux/README.md</a><br> <a href="https://github.com/dvajs/dva/blob/2.4/packages/dva/src/index.js" target="_blank" rel="noopener">https://github.com/dvajs/dva/blob/2.4/packages/dva/src/index.js</a></p>
+</li>
+</ol>
+<h3 id="connected-react-router"><a href="#connected-react-router" class="headerlink" title="connected-react-router"></a>connected-react-router</h3><p><a href="https://github.com/supasate/connected-react-router" target="_blank" rel="noopener">https://github.com/supasate/connected-react-router</a></p>
+<p>小结：</p>
+<ol>
+<li>用 hooks api 做了重构，用法和 react-router-redux 差不多</li>
+</ol>
+<h2 id="回到开始的问题"><a href="#回到开始的问题" class="headerlink" title="回到开始的问题"></a>回到开始的问题</h2><ol>
+<li><p>…</p>
+</li>
+<li><p><a href="https://github.com/ReactTraining/history/blob/master/modules/createBrowserHistory.js" target="_blank" rel="noopener">看源码实现</a></p>
+</li>
+<li><p><code>routerRedux.push(...)</code> 返回的是 <code>action</code>，所以要 <code>dispatch</code>，<code>history.push(...)</code> 其实可以满足相同的需求。<br> 区别是前者需要注入 <code>dispatch</code>，使用 <code>connect</code> 注入；后者需要注入 <code>history</code>，要么 <code>react-router</code> 已注入，要么使用 <code>withRouter</code></p>
+<p> 在 model 中跳转需使用前者</p>
+</li>
+<li><p>小心下面情况</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// "https://zyh.group.com/#/list?key=1&amp;value=2"</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.location)</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line">hash: <span class="string">"#/list?key=1&amp;value=2"</span></span><br><span class="line">search: <span class="string">""</span></span><br><span class="line"><span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// "https://zyh.group.com/list?key=1&amp;value=2#hash"</span></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line">hash: <span class="string">"#hash"</span></span><br><span class="line">search: <span class="string">"?key=1&amp;value=2"</span></span><br><span class="line"><span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/01/dva effects 进阶/" rel="next" title="dva effects 进阶">
+                <i class="fa fa-chevron-left"></i> dva effects 进阶
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/15/Performance Evaluation of Low Rate DoS Attack Using Multicast Mode in Wireless LAN/" rel="prev" title="【译】无线局域网中采用组播模式的低速率DoS攻击性能评估">
+                【译】无线局域网中采用组播模式的低速率DoS攻击性能评估 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="伍二娃" />
+            
+              <p class="site-author-name" itemprop="name">伍二娃</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/wave52" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/P9JlKs8JMvMso7U" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/wave52" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/wu-cheng-ran" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#抛砖引玉"><span class="nav-number">1.</span> <span class="nav-text">抛砖引玉</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器-API"><span class="nav-number">2.</span> <span class="nav-text">浏览器 API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#location"><span class="nav-number">2.1.</span> <span class="nav-text">location</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#window-history"><span class="nav-number">2.2.</span> <span class="nav-text">window.history</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前端路由解决方案"><span class="nav-number">3.</span> <span class="nav-text">前端路由解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#history-库"><span class="nav-number">3.1.</span> <span class="nav-text">history 库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#react-router"><span class="nav-number">3.2.</span> <span class="nav-text">react-router</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#react-router-redux"><span class="nav-number">3.3.</span> <span class="nav-text">react-router-redux</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#connected-react-router"><span class="nav-number">3.4.</span> <span class="nav-text">connected-react-router</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回到开始的问题"><span class="nav-number">4.</span> <span class="nav-text">回到开始的问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">伍二娃</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

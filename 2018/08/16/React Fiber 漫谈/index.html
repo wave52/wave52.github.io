@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="或许有许多同学听说 Fiber[‘faɪbə]是因为 react16 的全新架构，也就是我们说的 React Fiber。但其实 Fiber 是一个早已有的技术，今天就让我们从 Fiber 讲起，最终帮助大家理解 React Fiber。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React Fiber 漫谈">
+<meta property="og:url" content="http://wuchengran.com/2018/08/16/React Fiber 漫谈/index.html">
+<meta property="og:site_name" content="wave52">
+<meta property="og:description" content="或许有许多同学听说 Fiber[‘faɪbə]是因为 react16 的全新架构，也就是我们说的 React Fiber。但其实 Fiber 是一个早已有的技术，今天就让我们从 Fiber 讲起，最终帮助大家理解 React Fiber。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://wuchengran.com/images/ReactFiberManTan/图1.jpg">
+<meta property="og:image" content="http://wuchengran.com/images/ReactFiberManTan/图2.png">
+<meta property="og:image" content="http://wuchengran.com/images/ReactFiberManTan/图3.jpg">
+<meta property="og:updated_time" content="2020-11-23T16:13:48.179Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React Fiber 漫谈">
+<meta name="twitter:description" content="或许有许多同学听说 Fiber[‘faɪbə]是因为 react16 的全新架构，也就是我们说的 React Fiber。但其实 Fiber 是一个早已有的技术，今天就让我们从 Fiber 讲起，最终帮助大家理解 React Fiber。">
+<meta name="twitter:image" content="http://wuchengran.com/images/ReactFiberManTan/图1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wuchengran.com/2018/08/16/React Fiber 漫谈/"/>
+
+
+
+
+
+  <title>React Fiber 漫谈 | wave52</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wave52</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wuchengran.com/2018/08/16/React Fiber 漫谈/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="伍二娃">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wave52">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">React Fiber 漫谈</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-16T02:38:34+08:00">
+                2018-08-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>或许有许多同学听说 Fiber[‘faɪbə]是因为 react16 的全新架构，也就是我们说的 React Fiber。但其实 Fiber 是一个早已有的技术，今天就让我们从 Fiber 讲起，最终帮助大家理解 React Fiber。</p>
+<a id="more"></a>
+<h3 id="1-Fiber-是什么"><a href="#1-Fiber-是什么" class="headerlink" title="1.Fiber 是什么"></a>1.Fiber 是什么</h3><p>Fiber 的中文翻译叫做纤程，听到这个名字，大家自然而然会想到进程(Process)、线程(Process)、协程(Coroutine)。没错纤程也是一种程序执行过程。我们先来复习下以上名词，从浏览器入手：</p>
+<p>浏览器有多个进程：主进程、插件进程、GPU 进程、<strong>渲染进程</strong>（浏览器内核）；</p>
+<p>在<strong>渲染进程</strong>中有多个线程：GUI 渲染线程、<strong>JS 引擎线程</strong>、事件触发线程、定时触发器线程、异步 http 请求线程；</p>
+<p><strong>JS 引擎线程</strong>我们就更为熟悉了，js 的运行机制就是它说了算。<a href="https://segmentfault.com/a/1190000012925872" target="_blank" rel="noopener">更多</a></p>
+<p>而 ES6 里引入的新的函数类型——生成器函数，为 javascript 带来的协程，也带来了看似同步的异步流程控制。（当然，在此之前有很多库已经带来了）</p>
+<p>那么纤程是什么呢？很多人认为它就是协程，也有人说它是协程的一种实现方式(generator 算另一种实现)。我更偏向后者，但是具体学术定义我们不去谈，我们就以具体例子，说说它和 generator 实现的协程有什么差别。<a href="https://stackoverflow.com/questions/3324643/processes-threads-green-threads-protothreads-fibers-coroutines-whats-the/16375591#16375591" target="_blank" rel="noopener">更多</a></p>
+<h3 id="2-Fiber-与-Generator-的差别"><a href="#2-Fiber-与-Generator-的差别" class="headerlink" title="2.Fiber 与 Generator 的差别"></a>2.Fiber 与 Generator 的差别</h3><p>javascript 标准是没有 Fiber 的，但是强大的 node 生态难不倒我们，一个叫<a href="https://github.com/laverdet/node-fibers" target="_blank" rel="noopener">node-fibers</a>的库可以满足我们的需求，然后我们上代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// flow-fiber.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Fiber = <span class="built_in">require</span>(<span class="string">"fibers"</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">call1</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> fiber = Fiber.current;</span><br><span class="line">  <span class="keyword">var</span> ret;</span><br><span class="line">  setTimeout(</span><br><span class="line">    v =&gt; &#123;</span><br><span class="line">      ret = v;</span><br><span class="line">      fiber.run();</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="number">200</span>,</span><br><span class="line">    value + <span class="number">1</span></span><br><span class="line">  );</span><br><span class="line">  Fiber.yield();</span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">call2</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> fiber = Fiber.current;</span><br><span class="line">  <span class="keyword">var</span> ret;</span><br><span class="line">  setTimeout(</span><br><span class="line">    v =&gt; &#123;</span><br><span class="line">      ret = v;</span><br><span class="line">      fiber.run();</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="number">100</span>,</span><br><span class="line">    value + <span class="number">1</span></span><br><span class="line">  );</span><br><span class="line">  Fiber.yield();</span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Fiber(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> value1 = <span class="number">1</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"value1:"</span>, value1);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> value2 = call1(value1);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"value2:"</span>, value2);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> value3 = call2(value2);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"value3:"</span>, value3);</span><br><span class="line">&#125;).run();</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"main"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 运行结果：</span></span><br><span class="line"><span class="comment"> * value1: 1</span></span><br><span class="line"><span class="comment"> * main</span></span><br><span class="line"><span class="comment"> * value2: 2</span></span><br><span class="line"><span class="comment"> * value3: 3</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+<p>上面展示了 Fiber 实现的协程，一个常见的异步流程控制，我们再看看 Generator 的实现，做个对比。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// flow-gen.js</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">call1</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  setTimeout(</span><br><span class="line">    v =&gt; &#123;</span><br><span class="line">      it.next(v);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="number">200</span>,</span><br><span class="line">    value + <span class="number">1</span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">call2</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  setTimeout(</span><br><span class="line">    v =&gt; &#123;</span><br><span class="line">      it.next(v);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="number">100</span>,</span><br><span class="line">    value + <span class="number">1</span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">gen</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> value1 = <span class="number">1</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"value1:"</span>, value1);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> value2 = <span class="keyword">yield</span> call1(value1);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"value2:"</span>, value2);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> value3 = <span class="keyword">yield</span> call2(value2);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"value3:"</span>, value3);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> it = gen(); <span class="comment">// 构造迭代器</span></span><br><span class="line"></span><br><span class="line">it.next();</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"main"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 运行结果：</span></span><br><span class="line"><span class="comment"> * value1: 1</span></span><br><span class="line"><span class="comment"> * main</span></span><br><span class="line"><span class="comment"> * value2: 2</span></span><br><span class="line"><span class="comment"> * value3: 3</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+<p>相同点：</p>
+<ol>
+<li>都是顺序的，看似同步的异步流程控制风格；</li>
+<li>主流程上可以暂停去做其他事，完成后再回到主流程；</li>
+</ol>
+<p>不同点：</p>
+<ol>
+<li>Generator 通过 yield 关键字暂停执行；Fiber 是通过在子程序中调用<code>Fiber.yield()</code>方法暂停。</li>
+<li>Generator 通过调用生成器构造的迭代器的<code>next()</code>方法恢复执行；Fiber 是调用<code>Fiber.current.run()</code>。</li>
+<li>Generator 返回结果是在<code>next()</code>函数的参数中传递；Fiber 是通过子程序的<code>return</code></li>
+</ol>
+<p>那么 Fiber 与 Generator 的这些不同点使得它可以做什么 Generator 做不到的事吗？我们看前面代码的升级版：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// flow-fiber-pro.js</span></span><br><span class="line"><span class="keyword">var</span> Fiber = <span class="built_in">require</span>(<span class="string">"fibers"</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">call1</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> fiber = Fiber.current;</span><br><span class="line">  <span class="keyword">var</span> ret;</span><br><span class="line">  setTimeout(</span><br><span class="line">    v =&gt; &#123;</span><br><span class="line">      ret = v;</span><br><span class="line">      fiber.run();</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="number">200</span>,</span><br><span class="line">    value + <span class="number">1</span></span><br><span class="line">  );</span><br><span class="line">  Fiber.yield();</span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">call2</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> fiber = Fiber.current;</span><br><span class="line">  <span class="keyword">var</span> ret;</span><br><span class="line">  setTimeout(</span><br><span class="line">    v =&gt; &#123;</span><br><span class="line">      ret = v;</span><br><span class="line">      <span class="comment">// fiber.run();</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="number">100</span>,</span><br><span class="line">    value + <span class="number">1</span></span><br><span class="line">  );</span><br><span class="line">  Fiber.yield();</span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Fiber(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> value1 = <span class="number">1</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"value1:"</span>, value1);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> value2 = call1(value1);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"value2:"</span>, value2);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> fiber = Fiber.current;</span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// doSomethingElse</span></span><br><span class="line">    fiber.run();</span><br><span class="line">  &#125;, <span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> value3 = call2(value2);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"value3:"</span>, value3);</span><br><span class="line">&#125;).run();</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"main"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 运行结果：</span></span><br><span class="line"><span class="comment"> * value1: 1</span></span><br><span class="line"><span class="comment"> * main</span></span><br><span class="line"><span class="comment"> * value2: 2</span></span><br><span class="line"><span class="comment"> * value3: 3</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+<p>这里我们的主流程里有一个异步任务，他可能和我们这个主流程没有任何关系，只是它的优先级高一些，需要让它先执行，于是我们没有在 call2 子程序中调用<code>Fiber.current.run()</code>，而是在主控制流程中<code>Fiber.current.run()</code>，但是它依然获得了 call2 正确的返回值，不过是在 doSomethingElse 之后。但是同样情况我们用 Generator 却很难实现，因为我们虽然可以主流程上调用<code>it.next()</code>，但它无法获取正确的参数，除非引入外部变量保存<code>yield call</code>返回的值，但是这样的情况很多的话，就会有引入很多变量(我们要给每一个 call 函数结果做缓存，以便在主流程上恢复)。</p>
+<p>不止如此，我们可以在主流程上调用<code>Fiber.yield()</code>，中断执行，稍后在流程的某个环节再恢复，大家可以试一试。</p>
+<p>总结来说就是：在 Fiber 的控制流中，我们可以中断执行，并且可以恢复执行，之前的运算结果没有丢失；Generator 会按主流程的控制顺序强制执行下去，可以中断，但难以恢复。这也是<a href="https://github.com/facebook/react/issues/7942" target="_blank" rel="noopener">#7942</a>下 React 核心开发者说到 React 为什么没有采用 Generator 做异步的调度。</p>
+<h3 id="3-React-Fiber"><a href="#3-React-Fiber" class="headerlink" title="3.React Fiber"></a>3.React Fiber</h3><p>终于要讲我们的主角——React Fiber，前面说了那么多其实只和 React Fiber 有那么一丢丢的关系，因为 React Fiber 要解决的不单单是个异步调度的问题。</p>
+<p><a href="https://github.com/acdlite/react-fiber-architecture" target="_blank" rel="noopener">react-fiber-architecture</a>和<a href="https://github.com/facebook/react/issues/7942" target="_blank" rel="noopener">issue #7942</a>这两个 React 核心开发者的文章可以帮我们很好地理解 React Fiber。React Fiber 的使命就是要解决 React 的性能痛点。</p>
+<h4 id="3-1-性能痛点在哪呢？"><a href="#3-1-性能痛点在哪呢？" class="headerlink" title="3.1 性能痛点在哪呢？"></a>3.1 性能痛点在哪呢？</h4><p>我们知道 React 分为 Reconciliation 和 Rendering 两个过程。<br>DOM 仅仅是 React 支持的一个渲染环境，通过 React Native 它还可以支持原生 iOS 和 Android 页面的渲染。</p>
+<p><img src="/images/ReactFiberManTan/图1.jpg" alt="图1"></p>
+<p>React 之所以能够支持如此多的渲染环境，主要是因为在设计上，reconciliation 和渲染两个过程是分离的。reconciler 做了计算两棵树差异的工作；渲染器则会使用计算得到的信息来更新实际的应用。</p>
+<p>React Fiber 就是重写了 reconciler，它出来以后，之前的 reconciler 被称为了 Stack Reconciler，现在的则叫 Fiber Reconciler。</p>
+<p>Stack Reconciler 的痛点在于：对树的更新方式采用对节点递归遍历的方式，这种方式是同步的，无法暂停的，假如这一次更新有 200 个节点变化，就要计算完这两百个节点的变化，然后一次性更新，在这期间浏览器那个唯一的主线程都在专心运行更新操作，无暇做其他事，假如一个节点更新要 1ms，那两百个节点就要 200ms，我们知道浏览器一帧是 16.7ms，所以这个时候就会出现明显卡顿。</p>
+<p>过去的优化都是停留在 JavaScript 层面（Virtual DOM 的 create/diff）：如减少组件的复杂度（Stateless）、减少向下 diff 的规模（SCU）、减少 diff 的成本（immutable.js）…这些都并不能解决线程的问题。React 希望通过 Fiber 重构来改变这种现状，进一步提升交互体验。</p>
+<h4 id="3-2-Fiber-Reconciler"><a href="#3-2-Fiber-Reconciler" class="headerlink" title="3.2 Fiber Reconciler"></a>3.2 Fiber Reconciler</h4><p>React 没有享受 Stack Reconciler 调度带来的优势。一个更新将会导致整个子树被立即被重新渲染。 背后驱动 Fiber 重写 React 的核心算法是为了来利用调度的优势。</p>
+<p>为此，作者认为 Fiber Reconciler 需要做如下的事：</p>
+<ul>
+<li>暂停任务并能够在之后恢复任务。</li>
+<li>为不同的任务设置不同的优先级。</li>
+<li>重新使用之前完成的任务。</li>
+<li>如果不在需要则可以终止一个任务。</li>
+</ul>
+<p>听起来是不是就像之前讲的 Fiber 可以做的，为了做到这些事，我们首先需要一个方式来拆分这些任务为一个个任务单元。</p>
+<p>从某种意义上来说，这些任务单元就是 fiber。一个 fiber 是一个包含了组件及其输入输出的 JavaScript 对象。一个 fiber 代表了一个任务单元。（<br><a href="https://github.com/facebook/react/blob/master/packages/react-reconciler/src/ReactFiber.js" target="_blank" rel="noopener">fiber 对象</a> 或者看文末附录）</p>
+<p>那任务的执行顺序是什么样的呢? element tree 会被转化成 fiber tree，但这个 fiber tree 实际上是 fiber 单链表。（component, element, instance 的区别请注意）</p>
+<p><img src="/images/ReactFiberManTan/图2.png" alt="图2"></p>
+<p>上图每个节点就是 element，任务就是将他们一个个转化成 fiber。</p>
+<p>任务划分好了，如何暂停和恢复任务？在何时暂停和恢复？</p>
+<p>我们看一段伪代码(真正代码<a href="https://github.com/facebook/react/blob/33602d435a351404bc8a29b2dc461fc376e1cbaf/packages/react-reconciler/src/ReactFiberScheduler.js" target="_blank" rel="noopener">react/packages/react-reconciler/src/ReactFiberScheduler.js</a>的 renderRoot)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 伪代码</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">updateFiberAndView</span>(<span class="params">dl</span>) </span>&#123;</span><br><span class="line">  updateView(); <span class="comment">//更新视图，这会耗时，因此需要check时间</span></span><br><span class="line">  <span class="keyword">if</span> (dl.timeRemaining() &gt; <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> vdom = queue.shift();</span><br><span class="line">    <span class="keyword">var</span> fiber = vdom,</span><br><span class="line">      firstFiber;</span><br><span class="line">    <span class="keyword">var</span> hasVisited = &#123;&#125;;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">      <span class="comment">//深度优先遍历</span></span><br><span class="line">      <span class="keyword">var</span> fiber = toFiber(fiber); <span class="comment">//A处</span></span><br><span class="line">      <span class="keyword">if</span> (!firstFiber) &#123;</span><br><span class="line">        firstFiber = fiber;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (!hasVisited[fiber.uuid]) &#123;</span><br><span class="line">        hasVisited[fiber.uuid] = <span class="number">1</span>;</span><br><span class="line">        <span class="comment">//根据fiber.type实例化组件或者创建真实DOM</span></span><br><span class="line">        <span class="comment">//这会耗时，因此需要check时间</span></span><br><span class="line">        updateComponentOrElement(fiber);</span><br><span class="line">        <span class="keyword">if</span> (fiber.child) &#123;</span><br><span class="line">          <span class="comment">//向下转换</span></span><br><span class="line">          <span class="keyword">if</span> (dl.timeRemaining() &lt; <span class="number">1</span>) &#123;</span><br><span class="line">            queue.push(fiber.child); <span class="comment">//时间不够，放入队列</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          fiber = fiber.child;</span><br><span class="line">          <span class="keyword">continue</span>; <span class="comment">//让逻辑跑回A处，不断转换child, child.child, child.child.child</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//如果组件没有children，那么就向右找</span></span><br><span class="line">      <span class="keyword">if</span> (fiber.sibling) &#123;</span><br><span class="line">        fiber = fiber.sibling;</span><br><span class="line">        <span class="keyword">continue</span>; <span class="comment">//让逻辑跑回A处</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 向上找</span></span><br><span class="line">      fiber = fiber.return;</span><br><span class="line">      <span class="keyword">if</span> (fiber === firstFiber || !fiber) &#123;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">while</span> (<span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (queue.length) &#123;</span><br><span class="line">    requestIdleCallback(updateFiberAndView, &#123;</span><br><span class="line">      timeout: <span class="keyword">new</span> <span class="built_in">Date</span>() + <span class="number">100</span></span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们看到这里使用了 requetIdleCallback 这个 API，这个函数的回调函数会在浏览器一帧空闲的时候执行。 这个回调函数带有一个参数 deadline，其 timeRemaining()函数是浏览器这一帧还可用的剩余时间。我们可以根据这个值来调度任务。在这一帧还有剩余时间时，执行我们的更新，时间不够了的话，就放在下一个 IdleCallback 里。</p>
+<p>简单总结一下的话：任务就是将 element tree 转化成 fiber 对象形成的单链表，每一个 fiber 转化就是一个 unitWork；执行一次 unitWork 后，我们检查还有没有时间，这个时间是通过 IdleCallback 获得的（初始其实是 ReactDOM.render()调用它，这里会有个初始值），没有时间我们就将任务放到下一个 Idle period 由 IdleCallback 去执行。</p>
+<p>具体总结一下：</p>
+<p>React Fiber 把渲染/更新过程分为两个阶段：</p>
+<ul>
+<li><p>可中断的 render/reconciliation 通过构造 workInProgress tree 得出 change。</p>
+</li>
+<li><p>不可中断的 commit 应用这些 DOM change。</p>
+</li>
+</ul>
+<p>这里主要说说第一阶段</p>
+<ol>
+<li>如果当前节点不需要更新，直接把子节点 clone 过来，跳到 5；要更新的话打个 tag。</li>
+<li>更新当前 props， state， context 等节点状态。</li>
+<li>调用 should Component Update()，false 的话，跳到 5。</li>
+<li>调用 render()获得新的子节点，并为子节点创建 fiber。创建过程会尽量复用现有 fiber，子节点增删也发生在这里。</li>
+<li>如果没有产生 child fiber，该工作单元结束 return，并把当前节点的 sibling 作为下一个工作单元；否则把 child 作为下一个工作单元。</li>
+<li>如果没有剩余可用时间了，等到下一次主线程空闲时才开始下一个工作单元；否则，立即开始做。</li>
+<li>如果没有下一个工作单元了，回到了 workInProgress tree 的根节点，第 1 阶段结束，进入 pending Commit 状态。</li>
+</ol>
+<p>实际上是 1-&gt;6 的工作循环(workLoop)，7 是出口(completeWork)，工作循环每次只做一件事，做完看要不要休息。<br>所以，构建 workInProgress tree 的过程就是 diff 的过程，通过 request Idle Callback 来调度执行一组任务，每完成一个任务后回来看看有没有插队的（更紧急的），每完成一组任务，把时间控制权交还给主线程，直到下一次 request Idle Callback 回调再继续构建 workInProgress tree。</p>
+<h4 id="3-3-生命周期大换血"><a href="#3-3-生命周期大换血" class="headerlink" title="3.3 生命周期大换血"></a>3.3 生命周期大换血</h4><p>由于第一阶段可以中断，之前会在第一阶段会调用的生命周期钩子方法就会有重复调用，我们挨个看一看这些可能被重复调用的函数。</p>
+<ul>
+<li>componentWillReceiveProps，即使当前组件不更新，只要父组件更新也会引发这个函数被调用，所以多调用几次没啥，安排！</li>
+<li>shouldComponentUpdate，这函数的作用就是返回一个 true 或者 false，不应该有任何副作用，多调用几次也无妨，安排！</li>
+<li>render，应该是纯函数，多调用几次无妨，安排！</li>
+<li>只剩下 componentWillMount 和 componentWillUpdate 这两个函数往往包含副作用，于是，React 提供了新的钩子方法<code>getDerivedStateFromProps</code></li>
+</ul>
+<p><code>getDerivedStateFromProps</code>取代了原来的 componentWillMount 与 componentWillReceiveProps 方法，而 componentWillUpdate 本来就是可有可无，以前完全是为了对称好看。<code>getDerivedStateFromProps</code>让你在 render 设置新 state，你只要返回一个新对象，它就主动帮你 setState。</p>
+<p>于是整个生命周期变成了这样：</p>
+<p><img src="/images/ReactFiberManTan/图3.jpg" alt="图3"></p>
+<h3 id="4-附录"><a href="#4-附录" class="headerlink" title="4.附录"></a>4.附录</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一个Fiber对象作用于一个组件</span></span><br><span class="line"><span class="keyword">export</span> type Fiber = &#123;|</span><br><span class="line">  <span class="comment">// 标记fiber类型tag.如下</span></span><br><span class="line">  tag: TypeOfWork,</span><br><span class="line">  <span class="comment">// fiber对应的function/class/module类型组件名.</span></span><br><span class="line">  type: any,</span><br><span class="line">  <span class="comment">// fiber所在组件树的根组件FiberRoot对象</span></span><br><span class="line">  stateNode: any,</span><br><span class="line">  <span class="comment">// 处理完当前fiber后返回的fiber，即应该处理的下一个fiber</span></span><br><span class="line">  <span class="comment">// 返回当前fiber所在fiber树的父级fiber实例</span></span><br><span class="line">  <span class="keyword">return</span>: Fiber | <span class="literal">null</span>,</span><br><span class="line">  <span class="comment">// fiber树结构相关链接</span></span><br><span class="line">  child: Fiber | <span class="literal">null</span>, <span class="comment">// 子节点</span></span><br><span class="line">  sibling: Fiber | <span class="literal">null</span>, <span class="comment">// 兄弟节点</span></span><br><span class="line">  index: number,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 当前处理过程中的组件props对象</span></span><br><span class="line">  pendingProps: any,</span><br><span class="line">  <span class="comment">// 缓存的之前组件props对象</span></span><br><span class="line">  <span class="comment">// 当到来的pendingProps和上一个memoizedProps相等时，它意味着fiber的上一次输出可以重用，避免不必要的事务。</span></span><br><span class="line">  memoizedProps: any, <span class="comment">// The props used to create the output.</span></span><br><span class="line">  <span class="comment">// The state used to create the output</span></span><br><span class="line">  memoizedState: any,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 组件状态更新及对应回调函数的存储队列</span></span><br><span class="line">  updateQueue: UpdateQueue&lt;any&gt; | <span class="literal">null</span>,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 描述当前fiber实例及其子fiber树的数位，</span></span><br><span class="line">  <span class="comment">// 如，AsyncUpdates特殊字表示默认以异步形式处理子树，</span></span><br><span class="line">  <span class="comment">// 一个fiber实例创建时，此属性继承自父级fiber，在创建时也可以修改值，</span></span><br><span class="line">  <span class="comment">// 但随后将不可修改。</span></span><br><span class="line">  internalContextTag: TypeOfInternalContext,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 更新任务的最晚执行时间</span></span><br><span class="line">  expirationTime: ExpirationTime,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// fiber的版本池，即记录fiber更新过程，便于恢复</span></span><br><span class="line">  <span class="comment">// flush: 一个 fiber 就是把它的输出应用到屏幕上。</span></span><br><span class="line">  <span class="comment">// work-in-progress: 一个 fiber还没有完成；从概念上讲，就是一个栈帧还没有返回。</span></span><br><span class="line">  <span class="comment">// 在任何时候，一个组件实例至多对应有两个fibers。</span></span><br><span class="line">  <span class="comment">// 它们是当前已经 flush 到屏幕上的fiber</span></span><br><span class="line">  <span class="comment">// 另一个是正在任务执行中的 fiber</span></span><br><span class="line">  alternate: Fiber | <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// Conceptual aliases</span></span><br><span class="line">  <span class="comment">// workInProgress : Fiber -&gt;  alternate The alternate used for reuse happens</span></span><br><span class="line">  <span class="comment">// to be the same as work in progress.</span></span><br><span class="line">|&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ReactTypeOfWork.js</span></span><br><span class="line"><span class="comment">// 优先级</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  IndeterminateComponent: <span class="number">0</span>, <span class="comment">// Before we know whether it is functional or class</span></span><br><span class="line">  FunctionalComponent: <span class="number">1</span>,</span><br><span class="line">  ClassComponent: <span class="number">2</span>,</span><br><span class="line">  HostRoot: <span class="number">3</span>, <span class="comment">// Root of a host tree. Could be nested inside another node.</span></span><br><span class="line">  HostPortal: <span class="number">4</span>, <span class="comment">// A subtree. Could be an entry point to a different renderer.</span></span><br><span class="line">  HostComponent: <span class="number">5</span>,</span><br><span class="line">  HostText: <span class="number">6</span>,</span><br><span class="line">  CoroutineComponent: <span class="number">7</span>,</span><br><span class="line">  CoroutineHandlerPhase: <span class="number">8</span>,</span><br><span class="line">  YieldComponent: <span class="number">9</span>,</span><br><span class="line">  Fragment: <span class="number">10</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/12/Python与Javascript之比较/" rel="next" title="Python与Javascript之比较">
+                <i class="fa fa-chevron-left"></i> Python与Javascript之比较
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/04/Flow 漫谈/" rel="prev" title="Flow 与 Typescript">
+                Flow 与 Typescript <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="伍二娃" />
+            
+              <p class="site-author-name" itemprop="name">伍二娃</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/wave52" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/P9JlKs8JMvMso7U" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/wave52" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/wu-cheng-ran" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Fiber-是什么"><span class="nav-number">1.</span> <span class="nav-text">1.Fiber 是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Fiber-与-Generator-的差别"><span class="nav-number">2.</span> <span class="nav-text">2.Fiber 与 Generator 的差别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-React-Fiber"><span class="nav-number">3.</span> <span class="nav-text">3.React Fiber</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-性能痛点在哪呢？"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 性能痛点在哪呢？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-Fiber-Reconciler"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 Fiber Reconciler</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-生命周期大换血"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 生命周期大换血</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-附录"><span class="nav-number">4.</span> <span class="nav-text">4.附录</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">伍二娃</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

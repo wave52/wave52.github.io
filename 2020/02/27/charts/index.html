@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="您将收获 浅入浅出 echarts 图表库实现原理 更加熟悉 echarts 配置项">
+<meta property="og:type" content="article">
+<meta property="og:title" content="echarts 数据可视化">
+<meta property="og:url" content="http://wuchengran.com/2020/02/27/charts/index.html">
+<meta property="og:site_name" content="wave52">
+<meta property="og:description" content="您将收获 浅入浅出 echarts 图表库实现原理 更加熟悉 echarts 配置项">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://wuchengran.com/images/charts/1.png">
+<meta property="og:image" content="http://wuchengran.com/images/charts/2.png">
+<meta property="og:image" content="http://wuchengran.com/images/charts/3.png">
+<meta property="og:image" content="http://wuchengran.com/images/charts/4.png">
+<meta property="og:image" content="http://wuchengran.com/images/charts/5.jpg">
+<meta property="og:image" content="http://wuchengran.com/images/charts/6.jpg">
+<meta property="og:image" content="http://wuchengran.com/images/charts/7.jpg">
+<meta property="og:updated_time" content="2020-11-23T16:13:48.180Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="echarts 数据可视化">
+<meta name="twitter:description" content="您将收获 浅入浅出 echarts 图表库实现原理 更加熟悉 echarts 配置项">
+<meta name="twitter:image" content="http://wuchengran.com/images/charts/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wuchengran.com/2020/02/27/charts/"/>
+
+
+
+
+
+  <title>echarts 数据可视化 | wave52</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wave52</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wuchengran.com/2020/02/27/charts/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="伍二娃">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wave52">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">echarts 数据可视化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-27T16:35:09+08:00">
+                2020-02-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="您将收获"><a href="#您将收获" class="headerlink" title="您将收获"></a>您将收获</h2><ul>
+<li>浅入浅出 echarts 图表库实现原理</li>
+<li>更加熟悉 echarts 配置项</li>
+</ul>
+<a id="more"></a>
+<h2 id="echarts"><a href="#echarts" class="headerlink" title="echarts"></a>echarts</h2><p>最早(2012.8)由百度工程师开发做内部报表用，2013.6 开源，中间版本迭代，2018.1 捐给 Apache 开源基金会（ASF）开始孵化。</p>
+<p>成为 Apache 孵化项目的意义:</p>
+<ol>
+<li><p>对用户(开发中)来说使用更放心，由一家公司背书变为由 Apache 背书，不怕公司出现问题（公司倒闭、核心开发者离职 or 裁员、突然不开源了），反例 element-ui</p>
+</li>
+<li><p>对 committer 来说，不会觉得我是在免费给这个公司贡献代码，除非你想去那个公司</p>
+</li>
+<li><p>对项目来说，在开源社区得到更多的关注，吸引更多优秀的 committer 为项目舔砖加瓦</p>
+</li>
+</ol>
+<h3 id="echarts-架构"><a href="#echarts-架构" class="headerlink" title="echarts 架构"></a>echarts 架构</h3><p><img src="/images/charts/1.png" alt="Image"></p>
+<p>要理解这个架构，我们还需从底层看起，如果不使用库，我们怎么绘制图表。以一个饼图为例<br><img src="/images/charts/2.png" alt="Image"></p>
+<ol>
+<li><p>使用 canvas<br><strong>[代码]</strong></p>
+</li>
+<li><p>使用 svg<br><img src="/images/charts/3.png" alt="Image"></p>
+</li>
+</ol>
+<h3 id="zrender-的职责"><a href="#zrender-的职责" class="headerlink" title="zrender 的职责"></a>zrender 的职责</h3><ul>
+<li><p>渲染引擎的隔离（Canvas / SVG / VML / …）<br><a href="https://www.cnblogs.com/rubylouvre/archive/2009/10/12/1581891.html" target="_blank" rel="noopener">VML</a></p>
+</li>
+<li><p>图形元素的抽象 &amp; 状态维护（Element / Group / Layer / …）<strong>[代码]</strong><br><img src="/images/charts/4.png" alt="Image"></p>
+</li>
+</ul>
+<ul>
+<li>用户交互的封装（mouse event / touch / gesture / drag / …）</li>
+<li>动画（frame 管理 / easing / …）</li>
+<li>图形的坐标系变换（transform）、包含判断、曲线 …</li>
+<li>其他基本工具（eventful / color / array diff / SVG path converter / …）</li>
+</ul>
+<h3 id="echarts-系列-series-、组件-components-和坐标系-coordinateSystem"><a href="#echarts-系列-series-、组件-components-和坐标系-coordinateSystem" class="headerlink" title="echarts-系列(series)、组件(components)和坐标系(coordinateSystem)"></a>echarts-系列(series)、组件(components)和坐标系(coordinateSystem)</h3><p>zrender 是对图形绘制的抽象封装，echarts 则是对图表的抽象与封装，其中最重要的是这几个概念</p>
+<ul>
+<li>系列 series<br>即图表类型（line / pie / bar / scatter / tree / graph / map / treeMap…）<br>一个图里会有多个系列<br><img src="/images/charts/5.jpg" alt="Image"></li>
+<li>组件 components<br>除了系列，都是组件，如坐标轴、坐标系底板、操作用的控件等<br><img src="/images/charts/6.jpg" alt="Image"></li>
+<li><p>坐标系 coordinateSystem<br>系列的一部分，由组件构成（笛卡尔坐标系、极坐标系、日历、地理坐标系、地图服务）</p>
+<p>不同的坐标系所需组件不同，如：笛卡尔坐标系需要 xAxis、yAxis 组件；极坐标系则需要 angleAxis、radiusAxis 组件。</p>
+<p>相同数据在不同坐标系的展示：<br><a href="https://www.echartsjs.com/examples/zh/editor.html?c=scatter-polar-punchCard" target="_blank" rel="noopener">https://www.echartsjs.com/examples/zh/editor.html?c=scatter-polar-punchCard</a><br><a href="https://www.echartsjs.com/examples/zh/editor.html?c=scatter-punchCard" target="_blank" rel="noopener">https://www.echartsjs.com/examples/zh/editor.html?c=scatter-punchCard</a></p>
+<p><strong>[代码]</strong></p>
+</li>
+</ul>
+<h3 id="echarts-工作流-pipeline"><a href="#echarts-工作流-pipeline" class="headerlink" title="echarts-工作流(pipeline)"></a>echarts-工作流(pipeline)</h3><p>以<a href="https://www.echartsjs.com/examples/zh/editor.html?c=pie-simple" target="_blank" rel="noopener">饼图</a>为例</p>
+<p><img src="/images/charts/7.jpg" alt="Image"></p>
+<p>动画的实现？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">hasAnimation</span><br><span class="line">  ? <span class="comment">// animateTo will stop revious animation like update transition</span></span><br><span class="line">    el</span><br><span class="line">      .animate()</span><br><span class="line">      .when(<span class="number">200</span>, &#123;</span><br><span class="line">        position: position,</span><br><span class="line">      &#125;)</span><br><span class="line">      .start(<span class="string">'bounceOut'</span>)</span><br><span class="line">  : el.attr(<span class="string">'position'</span>, position);</span><br></pre></td></tr></table></figure>
+<h3 id="echarts-性能优化"><a href="#echarts-性能优化" class="headerlink" title="echarts-性能优化"></a>echarts-性能优化</h3><h4 id="什么时候存在性能问题"><a href="#什么时候存在性能问题" class="headerlink" title="什么时候存在性能问题"></a>什么时候存在性能问题</h4><p>数据越多性能越差。就像 antd Select 组件有 1000 个选项时会明显卡顿一样，虽然 canvas 渲染比 dom 渲染快些</p>
+<p>我没有经过精确的测试，用一个<a href="https://gallery.echartsjs.com/editor.html?c=xtH5vdltf&amp;v=3" target="_blank" rel="noopener">例子</a>来大致感受下：</p>
+<ul>
+<li>1000 个数据点 无 视觉上的卡顿，performance 观察存在 146ms 卡顿（&gt; 1000ms/60）</li>
+<li>10000 个数据点 有 视觉上的卡顿，performance 观察存在 354ms 卡顿</li>
+<li>100000 个数据点 有 视觉上的卡顿，performance 观察存在 509ms 卡顿</li>
+</ul>
+<p>从前端渲染角度如何定义大数据，数据点大于像素点，如：1920 * 1080 = 2,073,600</p>
+<p>我之前遇到的卡顿问题：</p>
+<ol>
+<li>2880 个数据点，1 个图 performance 观察存在 700ms 卡顿（？？？）</li>
+<li>一个图渲染完不能直接展示，要等四个图都渲染完才展示，4 个图就卡 3 秒，这部分感觉和 react 也有关系</li>
+</ol>
+<h4 id="echarts-里如何解决"><a href="#echarts-里如何解决" class="headerlink" title="echarts 里如何解决"></a>echarts 里如何解决</h4><p>echarts 在性能方面的设计感觉一般：</p>
+<ol>
+<li>不同的 series 有不同的配置，可以在配置项中搜索 sampling（采样）、progressive（渐进式渲染）…</li>
+<li>视觉上的过渡，可以在配置项中搜索 animation、showLoading…</li>
+<li>高阶一点用 <a href="https://www.echartsjs.com/zh/api.html#echartsInstance.appendData" target="_blank" rel="noopener"><code>echartsInstance. appendData</code></a>，把数据切片，这部分由开发者控制，工作量大，数据切成多大一片不好说：切大了，渲染一块数据还是卡；切小了，整个渲染完成时间会不会更长（虽然中间是有动画的），另外和 react 结合是否会存在其他问题</li>
+</ol>
+<h2 id="其他图表库浅谈"><a href="#其他图表库浅谈" class="headerlink" title="其他图表库浅谈"></a>其他图表库浅谈</h2><table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:center">D3</th>
+<th style="text-align:right">echarts</th>
+<th style="text-align:right">G2</th>
+<th>bizcharts/viser-react</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">例子</td>
+<td style="text-align:center"><a href="https://observablehq.com/@d3/pie-chart?collection=@d3/d3-shape" target="_blank" rel="noopener">https://observablehq.com/@d3/pie-chart?collection=@d3/d3-shape</a></td>
+<td style="text-align:right">-</td>
+<td style="text-align:right"><a href="https://g2.antv.vision/zh/examples/gallery/pie" target="_blank" rel="noopener">https://g2.antv.vision/zh/examples/gallery/pie</a></td>
+<td><a href="https://bizcharts.net/products/bizCharts/demo/detail?id=pie-labelline&amp;selectedKey=%E9%A5%BC%E5%9B%BE" target="_blank" rel="noopener">https://bizcharts.net/products/bizCharts/demo/detail?id=pie-labelline&amp;selectedKey=%E9%A5%BC%E5%9B%BE</a></td>
+</tr>
+<tr>
+<td style="text-align:left">用法</td>
+<td style="text-align:center">命令式链式调用</td>
+<td style="text-align:right">声明式配置传递</td>
+<td style="text-align:right">命令式链式调用</td>
+<td>声明式 jsx</td>
+</tr>
+<tr>
+<td style="text-align:left">支持图表类型</td>
+<td style="text-align:center">-</td>
+<td style="text-align:right">-</td>
+<td style="text-align:right">-</td>
+<td>-</td>
+</tr>
+<tr>
+<td style="text-align:left">性能</td>
+<td style="text-align:center">-</td>
+<td style="text-align:right">-</td>
+<td style="text-align:right">-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="关于-g2"><a href="#关于-g2" class="headerlink" title="关于 g2"></a>关于 g2</h3><p>@antv/g2 - 折线、柱状、饼状<br>@antv/g6 - 树、图</p>
+<p>bizcharts = @antv/g2 + react<br>viser-react = viser(基于 @antv/g2)+ react<br>viser-graph-react = viser-graph(基于 @antv/g6) + react</p>
+<p>g2 架构 <a href="https://g2.antv.vision/zh/docs/manual/concepts/history" target="_blank" rel="noopener">https://g2.antv.vision/zh/docs/manual/concepts/history</a></p>
+<p>个人理解 g2 对标 D3。</p>
+<h3 id="g2-与-echarts-对比"><a href="#g2-与-echarts-对比" class="headerlink" title="g2 与 echarts 对比"></a>g2 与 echarts 对比</h3><ul>
+<li><p>优点：</p>
+<ol>
+<li>布局做的好，legend 与图表内容不遮挡、label 不遮挡 <a href="https://zhuanlan.zhihu.com/p/109532433" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/109532433</a></li>
+</ol>
+</li>
+<li><p>缺点：</p>
+<ol>
+<li>直接使用 g2 是极好的，只要习惯了 d3 风格的链式调用，但要在 React 中使用存在一些问题：</li>
+</ol>
+<ul>
+<li>学习成本：bizcharts/viser-react 用 jsx 封装 g2，要学两套 API</li>
+<li>功能缺陷：bizcharts/viser-react 没有完整实现 g2 的交互</li>
+</ul>
+</li>
+</ul>
+<h2 id="DataSet"><a href="#DataSet" class="headerlink" title="DataSet"></a>DataSet</h2><p>echarts、g2 都有这个功能，用来做数据预处理，就使用体验来说，g2 的 DateSet 体验不错</p>
+<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><ul>
+<li>优秀的 UI system 有很多共通的地方：</li>
+</ul>
+<ol>
+<li>底层操作是命令式（dom 操作、canvas、webGL）;</li>
+<li>封装时大多会遵循的原则: MV**、 单向数据流、自定义事件 eventEmitter</li>
+</ol>
+<ul>
+<li>数据可视化技术上还可以探索的：</li>
+</ul>
+<ol>
+<li>3D 图表</li>
+<li>风格化渲染，手绘风：<a href="https://github.com/timqian/chart.xkcd" target="_blank" rel="noopener">https://github.com/timqian/chart.xkcd</a></li>
+</ol>
+<ul>
+<li>数据可视化还有值得学习的是产品层面的：</li>
+</ul>
+<ol>
+<li>具体场景下，什么类型的图表更适合表现数据</li>
+<li>一些不常见的类型的图表是干什么的</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/07/React Hooks/" rel="next" title="React Hooks">
+                <i class="fa fa-chevron-left"></i> React Hooks
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/06/optional chain & nullish coalescing operator/" rel="prev" title="optional chain & nullish coalescing operator">
+                optional chain & nullish coalescing operator <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="伍二娃" />
+            
+              <p class="site-author-name" itemprop="name">伍二娃</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/wave52" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/P9JlKs8JMvMso7U" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/wave52" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/wu-cheng-ran" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#您将收获"><span class="nav-number">1.</span> <span class="nav-text">您将收获</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#echarts"><span class="nav-number">2.</span> <span class="nav-text">echarts</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#echarts-架构"><span class="nav-number">2.1.</span> <span class="nav-text">echarts 架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zrender-的职责"><span class="nav-number">2.2.</span> <span class="nav-text">zrender 的职责</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#echarts-系列-series-、组件-components-和坐标系-coordinateSystem"><span class="nav-number">2.3.</span> <span class="nav-text">echarts-系列(series)、组件(components)和坐标系(coordinateSystem)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#echarts-工作流-pipeline"><span class="nav-number">2.4.</span> <span class="nav-text">echarts-工作流(pipeline)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#echarts-性能优化"><span class="nav-number">2.5.</span> <span class="nav-text">echarts-性能优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么时候存在性能问题"><span class="nav-number">2.5.1.</span> <span class="nav-text">什么时候存在性能问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#echarts-里如何解决"><span class="nav-number">2.5.2.</span> <span class="nav-text">echarts 里如何解决</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他图表库浅谈"><span class="nav-number">3.</span> <span class="nav-text">其他图表库浅谈</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于-g2"><span class="nav-number">3.1.</span> <span class="nav-text">关于 g2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#g2-与-echarts-对比"><span class="nav-number">3.2.</span> <span class="nav-text">g2 与 echarts 对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DataSet"><span class="nav-number">4.</span> <span class="nav-text">DataSet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#感想"><span class="nav-number">5.</span> <span class="nav-text">感想</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">伍二娃</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

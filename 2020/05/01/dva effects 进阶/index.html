@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="这是去年写的一篇总结了，一直没搬到我的博客上来，最近才想起。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dva effects 进阶">
+<meta property="og:url" content="http://wuchengran.com/2020/05/01/dva effects 进阶/index.html">
+<meta property="og:site_name" content="wave52">
+<meta property="og:description" content="这是去年写的一篇总结了，一直没搬到我的博客上来，最近才想起。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-11-23T16:13:48.180Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="dva effects 进阶">
+<meta name="twitter:description" content="这是去年写的一篇总结了，一直没搬到我的博客上来，最近才想起。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wuchengran.com/2020/05/01/dva effects 进阶/"/>
+
+
+
+
+
+  <title>dva effects 进阶 | wave52</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wave52</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wuchengran.com/2020/05/01/dva effects 进阶/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="伍二娃">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wave52">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">dva effects 进阶</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-01T00:10:55+08:00">
+                2020-05-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这是去年写的一篇总结了，一直没搬到我的博客上来，最近才想起。</p>
+<a id="more"></a>
+<p>本文相关代码 <a href="https://github.com/wave52/react-practise/blob/master/src/redux/dvaApp/index.js" target="_blank" rel="noopener">https://github.com/wave52/react-practise/blob/master/src/redux/dvaApp/index.js</a></p>
+<h2 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h2><ol>
+<li>使用最新的请求结果</li>
+<li>取消一个耗时很长的请求（手动/超时自动）</li>
+<li>轮询（循环定时发起）</li>
+<li>排队请求（循环排队发起）</li>
+<li>跨 model 时序问题</li>
+</ol>
+<h2 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h2><h3 id="一-redux-saga"><a href="#一-redux-saga" class="headerlink" title="一.redux-saga"></a>一.redux-saga</h3><h4 id="1-redux-saga是个中间件"><a href="#1-redux-saga是个中间件" class="headerlink" title="1.redux-saga是个中间件"></a>1.redux-saga是个中间件</h4><p>那源码是否可以找到 redux-thunk 这样的中间件写法？(redux-thunk 源码简析之前文章做过了，14 行代码很简单)</p>
+<p>可以，就在 /packages/core/src/internal/middleware.js（0.16.0 src/internal/middleware.js）</p>
+<p>sagaMiddlewareFactory 这个函数等同于 createThunkMiddleware</p>
+<p>其主要逻辑是</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="function"><span class="params">next</span> =&gt;</span> action =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (sagaMonitor &amp;&amp; sagaMonitor.actionDispatched) &#123;</span><br><span class="line">        sagaMonitor.actionDispatched(action)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> result = next(action) <span class="comment">// hit reducers</span></span><br><span class="line">    channel.put(action)</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用时，对比thunk:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// thunk</span></span><br><span class="line"><span class="keyword">const</span> store = createStore(</span><br><span class="line">  rootReducer,</span><br><span class="line">  applyMiddleware(thunk)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// saga</span></span><br><span class="line"><span class="keyword">const</span> sagaMiddleware = createSagaMiddleware()</span><br><span class="line">createStore(rootReducer, applyMiddleware(sagaMiddleware))</span><br><span class="line">sagaMiddleware.run(rootSaga)</span><br></pre></td></tr></table></figure>
+<p>上面的 thunk 中间件这样用以后，变化的是 reducer，本来 action 是一个 plainObject，现在的 action 可以是个方法了；而用了 saga 中间件以后，之前的 reducer 没有变化，action 还是一个 plainObject 表示 state 的变化，而异步的都放在 sagas（上面的 rootSaga）中处理了，至于 channel.put(action) 可以理解成 channel 是一个发布订阅模式，channel.put 就是发布，而 saga 中会订阅（take）</p>
+<p>也就是说 saga 的程序逻辑会存在两个位置：</p>
+<ul>
+<li>Reducers 负责处理 action 的 state 转换</li>
+<li>Sagas 负责策划统筹合成和异步操作</li>
+</ul>
+<p>源码中也能体现 <code>const result = next(action)</code>，不像 thunk 还做了拦截处理，而 saga 的处理其实是在 run 函数，<br>run 函数源码对应 runSaga/packages/core/src/internal/runSaga.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> iterator = saga(...args)</span><br></pre></td></tr></table></figure>
+<p>这里 saga 的 args 参数可能有各种情况，本例 saga 对应 rootSaga，<code>...args</code> 是空的。</p>
+<p>确实，rootSaga 是一个 generator，他执行后返回一个 IterableIterator 类型的对象 iterator</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span>* <span class="title">root</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> all([fork(getAllProducts), fork(watchGetProducts), fork(watchCheckout)])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那我们看看怎么处理这个 iterator 的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> immediately(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> task = proc(env, iterator, context, effectId, getMetaInfo(saga), <span class="comment">/* isRoot */</span> <span class="literal">true</span>, noop)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (sagaMonitor) &#123;</span><br><span class="line">       sagaMonitor.effectResolved(effectId, task)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> task</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>作为参数传给了 proc 函数，外面包的这层函数先不用管，这里可以看成 <code>((）=&gt;{proc})()</code> 一个立即执行函数，再看看 proc，这是重点了<br><code>run（rootSaga）</code>执行的调用栈（从proc开始，前面的都分析了）<br><code>proc()</code></p>
+<p>-&gt; <code>next()</code></p>
+<p>-&gt; <code>result = iterator.next(arg)</code> - (看过 generator 应该知道此时来到了第一个 <code>yield all()</code>, 打印一下<code>{value：{type: ALL,....},done: false}</code>，判断 done 还不为 true，直接打印 <code>console.log(all());</code> 也会看到这个结构)</p>
+<p>-&gt; <code>digestEffect()</code></p>
+<p>-&gt; <code>finalRunEffect()</code> - (finalRunEffect()是在runSaga中封装了runeffect，runsaga可以接受一个effectMiddlewares参数进行封装TODO1)</p>
+<p>-&gt; <code>runEffect()</code></p>
+<p>-&gt; 然后去 effectRunnerMap.js</p>
+<p>-&gt; <code>runAllEffect()</code><br>-&gt; forEach 调用 <code>digestEffect()</code> 同上第一个是 fork<br>-&gt; <code>runForkEffect()</code><br>-&gt; proc</p>
+<p>当前 iterator 就变成了 getAllProducts</p>
+<p>更多 saga 原理与实现 <a href="http://frontend.dev-ag.xxx.com/blog/2018/08/28/redux-saga.html" target="_blank" rel="noopener">http://frontend.dev-ag.xxx.com/blog/2018/08/28/redux-saga.html</a></p>
+<p>我们主要关注 redux-saga 的使用与 dva 的原理和实现</p>
+<p>只需强调几个地方帮助我们理解：<br>1.watch-and-fork 模式<br>2.阻塞（take，call…）与非阻塞（fork，put…）<br>3.saga-helper</p>
+<h4 id="2-dva-封装了啥"><a href="#2-dva-封装了啥" class="headerlink" title="2.dva 封装了啥"></a>2.dva 封装了啥</h4><p>dva 调用 run<br><code>store.runSaga = sagaMiddleware.run;</code><br>injectModel 中 <code>store.runSaga</code><br>参数应该是 rootSaga，那 dva 中是啥<br>是一个 getSaga 方法 dva/packages/dva-core/src/getSaga.js<br>返回是一个 funtion*() 就像 rootSaga 一样但里面没有用 all() 包装，而是一个 for 循环，毕竟 all() 中也是 forEach，然后</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> watcher = getWatcher(key, effects[key], model, onError, onEffect, opts);</span><br><span class="line"><span class="keyword">const</span> task = <span class="keyword">yield</span> sagaEffects.fork(watcher);</span><br></pre></td></tr></table></figure>
+<p>第一行每一个 saga 我们都用一个 sagaHelper 包装一下</p>
+<p>第二行包装后的 saga 我们 fork 一下，就像前面的例子一样</p>
+<p>这里就需要理解一下 sagaHelper 和 fork 的意义了</p>
+<p><strong>fork</strong> 是非阻塞的 call(<a href="https://redux-saga-in-chinese.js.org/docs/api/" target="_blank" rel="noopener">https://redux-saga-in-chinese.js.org/docs/api/</a>)</p>
+<p>另外，<code>createEffects return { ...sagaEffects, put, take };</code> 这里可以发现，dva 中是可以使用 redux-saga 中所有的 effects 的，不过要注意版本</p>
+<h4 id="3-saga-helper-saga辅助函数"><a href="#3-saga-helper-saga辅助函数" class="headerlink" title="3.saga helper(saga辅助函数)"></a>3.saga helper(saga辅助函数)</h4><p>saga helper 对应源码 io-helpers <code>debounce</code>， <code>retry</code>， <code>takeEvery</code>， <code>takeLatest</code>， <code>takeLeading</code>， <code>throttle</code>，saga 辅助函数是由effect创建器组合而来的高级API</p>
+<p><code>takeEvery</code> 是一个使用 <code>take</code> 和 <code>fork</code> 构建的高级 API。下面演示了这个辅助函数是如何由低级 Effect 实现的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> takeEvery = <span class="function">(<span class="params">patternOrChannel, saga, ...args</span>) =&gt;</span> fork(<span class="function"><span class="keyword">function</span>*(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> action = <span class="keyword">yield</span> take(patternOrChannel)</span><br><span class="line">    <span class="keyword">yield</span> fork(saga, ...args.concat(action))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>dva 的 <code>&quot;redux-saga&quot;: &quot;^0.16.0&quot;</code>，包含的 saga helper 只有 <code>takeEvery</code>， <code>takeLatest</code>， <code>throttle</code>，对应 sagaHelpers 这个目录</p>
+<p>dva 中的 saga helper 作为 effects type 存在</p>
+<p><a href="https://blog.csdn.net/wangweiren_get/article/details/89043113#_1" target="_blank" rel="noopener">https://blog.csdn.net/wangweiren_get/article/details/89043113#_1</a></p>
+<p>getWatcher 源码中默认用 takeEvery 包裹，所以一般没有写，问题 3 就可以用takeLatest来解决</p>
+<p>我们具体来看看每一个 saga helper 的用途</p>
+<h5 id="1-先看看-redux-saga-本身的"><a href="#1-先看看-redux-saga-本身的" class="headerlink" title="1).先看看 redux-saga 本身的"></a>1).先看看 redux-saga 本身的</h5><p><strong>takeEvery：</strong> 每次 dispatch action 都会触发</p>
+<p><strong>takeLatest：</strong> 每次 dispatch action 会销毁之前的，再触发</p>
+<p><strong>throttle：</strong> 节流，不多解释</p>
+<h5 id="2-dva依赖redux-saga-0-16-x，下面这些新的saga-helper你用dva时应该没有见过："><a href="#2-dva依赖redux-saga-0-16-x，下面这些新的saga-helper你用dva时应该没有见过：" class="headerlink" title="2).dva依赖redux-saga@0.16.x，下面这些新的saga-helper你用dva时应该没有见过："></a>2).dva依赖<a href="mailto:redux-saga@0.16.x" target="_blank" rel="noopener">redux-saga@0.16.x</a>，下面这些新的saga-helper你用dva时应该没有见过：</h5><p><strong>takeLeading：</strong> 每次dispatch触发一次，当执行完了才能在被触发，中间dispatch不会触发</p>
+<p><strong>debounce：</strong> 防抖，不多解释</p>
+<p><strong>retry：</strong> 失败自动重试</p>
+<h5 id="3-另外由于-saga-helper-就是简单的-effects-创建器组合而成的高级API，所以-dva-在封装时也自己做了几个-saga-helper（在dva里叫effect-type）"><a href="#3-另外由于-saga-helper-就是简单的-effects-创建器组合而成的高级API，所以-dva-在封装时也自己做了几个-saga-helper（在dva里叫effect-type）" class="headerlink" title="3).另外由于 saga helper 就是简单的 effects 创建器组合而成的高级API，所以 dva 在封装时也自己做了几个 saga helper（在dva里叫effect type）"></a>3).另外由于 saga helper 就是简单的 effects 创建器组合而成的高级API，所以 dva 在封装时也自己做了几个 saga helper（在dva里叫effect type）</h5><p><strong>watcher：</strong> 其实就就是没有用 saga-helper，初始化启动，这个名字来源是由于 saga 常见模式 watch-and-fork 模式，dva 只对其做了简单的 <code>try catch</code> 封装</p>
+<p><strong>poll（2.6beta版）：</strong> 顾名思义是做轮询用的（解决了开头的问题），现在我们用的是 <a href="mailto:dva@2.4" target="_blank" rel="noopener">dva@2.4</a> 版本还没有这个 effect，可以看下他怎么做的，总之是由简单的 effect 创建器组合而成，solvay 中就自己实现过</p>
+<h4 id="4-effect-创建器"><a href="#4-effect-创建器" class="headerlink" title="4.effect 创建器"></a>4.effect 创建器</h4><p><a href="https://redux-saga-in-chinese.js.org/docs/basics/DeclarativeEffects.html" target="_blank" rel="noopener">https://redux-saga-in-chinese.js.org/docs/basics/DeclarativeEffects.html</a></p>
+<p>作用：为了方便测试，把直接调用改为使用 effect 创建器包装调用</p>
+<p>take、fork</p>
+<h4 id="5-channel"><a href="#5-channel" class="headerlink" title="5.channel"></a>5.channel</h4><p>…</p>
+<p>本文相关代码 <a href="https://github.com/wave52/react-practise/blob/master/src/redux/dvaApp/index.js" target="_blank" rel="noopener">https://github.com/wave52/react-practise/blob/master/src/redux/dvaApp/index.js</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/01/eslint-checklist/" rel="next" title="eslint 的“道”">
+                <i class="fa fa-chevron-left"></i> eslint 的“道”
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/11/前端路由/" rel="prev" title="前端路由">
+                前端路由 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="伍二娃" />
+            
+              <p class="site-author-name" itemprop="name">伍二娃</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/wave52" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/P9JlKs8JMvMso7U" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/wave52" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/wu-cheng-ran" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题："><span class="nav-number">1.</span> <span class="nav-text">问题：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析："><span class="nav-number">2.</span> <span class="nav-text">分析：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-redux-saga"><span class="nav-number">2.1.</span> <span class="nav-text">一.redux-saga</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-redux-saga是个中间件"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.redux-saga是个中间件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-dva-封装了啥"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.dva 封装了啥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-saga-helper-saga辅助函数"><span class="nav-number">2.1.3.</span> <span class="nav-text">3.saga helper(saga辅助函数)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-先看看-redux-saga-本身的"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">1).先看看 redux-saga 本身的</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-dva依赖redux-saga-0-16-x，下面这些新的saga-helper你用dva时应该没有见过："><span class="nav-number">2.1.3.2.</span> <span class="nav-text">2).dva依赖redux-saga@0.16.x，下面这些新的saga-helper你用dva时应该没有见过：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-另外由于-saga-helper-就是简单的-effects-创建器组合而成的高级API，所以-dva-在封装时也自己做了几个-saga-helper（在dva里叫effect-type）"><span class="nav-number">2.1.3.3.</span> <span class="nav-text">3).另外由于 saga helper 就是简单的 effects 创建器组合而成的高级API，所以 dva 在封装时也自己做了几个 saga helper（在dva里叫effect type）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-effect-创建器"><span class="nav-number">2.1.4.</span> <span class="nav-text">4.effect 创建器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-channel"><span class="nav-number">2.1.5.</span> <span class="nav-text">5.channel</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">伍二娃</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

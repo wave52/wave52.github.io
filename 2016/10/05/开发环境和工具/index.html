@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="这篇文章不会细讲安装各种开发环境的问题，而是对自己这一年工作以来使用的各种工具、开发环境做个简要的介绍，也算是技术备份了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开发环境和工具">
+<meta property="og:url" content="http://wuchengran.com/2016/10/05/开发环境和工具/index.html">
+<meta property="og:site_name" content="wave52">
+<meta property="og:description" content="这篇文章不会细讲安装各种开发环境的问题，而是对自己这一年工作以来使用的各种工具、开发环境做个简要的介绍，也算是技术备份了">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://wuchengran.com/images/tools/0.png">
+<meta property="og:image" content="http://wuchengran.com/images/tools/1.png">
+<meta property="og:image" content="http://wuchengran.com/images/tools/2.png">
+<meta property="og:image" content="http://wuchengran.com/images/tools/3.png">
+<meta property="og:image" content="http://wuchengran.com/images/tools/4.png">
+<meta property="og:updated_time" content="2020-11-23T16:13:48.182Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="开发环境和工具">
+<meta name="twitter:description" content="这篇文章不会细讲安装各种开发环境的问题，而是对自己这一年工作以来使用的各种工具、开发环境做个简要的介绍，也算是技术备份了">
+<meta name="twitter:image" content="http://wuchengran.com/images/tools/0.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wuchengran.com/2016/10/05/开发环境和工具/"/>
+
+
+
+
+
+  <title>开发环境和工具 | wave52</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wave52</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wuchengran.com/2016/10/05/开发环境和工具/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="伍二娃">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wave52">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">开发环境和工具</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-05T20:46:25+08:00">
+                2016-10-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇文章不会细讲安装各种开发环境的问题，而是对自己这一年工作以来使用的各种工具、开发环境做个简要的介绍，也算是技术备份了</p>
+<a id="more"></a>
+<h2 id="一、基本环境和工具"><a href="#一、基本环境和工具" class="headerlink" title="一、基本环境和工具"></a>一、基本环境和工具</h2><p>基本的开发环境，即不管你用什么语言框架开发</p>
+<h3 id="1-iTerm-2-amp-amp-Oh-My-Zsh"><a href="#1-iTerm-2-amp-amp-Oh-My-Zsh" class="headerlink" title="1.iTerm 2 &amp;&amp; Oh My Zsh"></a>1.iTerm 2 &amp;&amp; Oh My Zsh</h3><p>这个当时照着网上自己弄了个，后面也没有改过 omz 的样式了，以后比较闲的时候可以换个 theme 玩玩。它透明这个点当时吸引我了。<br><img src="/images/tools/0.png" alt="图0"></p>
+<h3 id="2-vim"><a href="#2-vim" class="headerlink" title="2.vim"></a>2.vim</h3><p>当时开始使用 node 技术栈后，很多事情都需要在命令行操作，vim 也渐渐用的多起来，但是对它的许多操作很长一段时间都没熟悉，直到我知道了 vimtutor 命令。<br><img src="/images/tools/1.png" alt="图1"></p>
+<h3 id="3-sublime"><a href="#3-sublime" class="headerlink" title="3.sublime"></a>3.sublime</h3><p>github 上有备份</p>
+<h3 id="4-homebrew"><a href="#4-homebrew" class="headerlink" title="4.homebrew"></a>4.homebrew</h3><p>macOS 包管理器<br><img src="/images/tools/2.png" alt="图2"></p>
+<h2 id="二、Node"><a href="#二、Node" class="headerlink" title="二、Node"></a>二、Node</h2><p>作为一个前端工程师，最重要的环境当然是 node。不过 node 可不像 jre，没有 jre，java 没法运行，但没有 node，javascript 照样写。不过如今已是 2017 了，况且平时的工作时用到的，也是基于 node 的一套前端环境，即 node+webpack+前端框架+es6，下面就来看看和 node 有关的配置</p>
+<h3 id="1-nvm"><a href="#1-nvm" class="headerlink" title="1.nvm"></a>1.nvm</h3><p>管理 node 版本<br><img src="/images/tools/3.png" alt="图3"></p>
+<h3 id="2-npm"><a href="#2-npm" class="headerlink" title="2.npm"></a>2.npm</h3><p>node 包管理器</p>
+<p>查看全局安装的模块：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm list --depth=0 -global</span><br></pre></td></tr></table></figure>
+<h3 id="3-webpack"><a href="#3-webpack" class="headerlink" title="3.webpack"></a>3.webpack</h3><p>初学时用的模块版本是 react0.14.6 版，相关模块要与之关联（不一定依赖）</p>
+<p>记住一个时间节点 2016.4.8：react15 版发布</p>
+<p>由于 15 版不主动支持 IE8,可尝试 react0.14.8:(关于 14 和 15 版：<a href="http://geek.csdn.net/news/detail/68287" target="_blank" rel="noopener">http://geek.csdn.net/news/detail/68287</a>)</p>
+<p>babel：<br>babel-core<br>babel-loader<br>babel-polyfill<br>babel-preset-es2015<br>babel-preset-react<br>babel-preset-stage-0<br>下面没用过：<br>babel-eslint<br>babel-plugin-import<br>babel-plugin-transform-decorators-legacy<br>babel-plugin-transform-runtime<br>babel-preset-react-optimize<br>babel-runtime</p>
+<p>react 全家桶：<br>react<br>react-dom<br>react-redux<br>react-router<br>react-router-redux<br>redux<br>redux-thunk<br>react-mixin<br>react-hot-loader<br>react-router-loader<br>redbox-react</p>
+<p>webpack 的 loader 和插件：<br>webpack<br>react-hot-loader<br>react-router-loader<br>babel-loader<br>css-loader<br>less-loader<br>style-loader<br>file-loader<br>url-loader<br>html-webpack-plugin<br>下面没用过：<br>eslint-loader<br>html-loader<br>json-loader</p>
+<p>ES 语法检查：<br>babel-eslint//新 api 检查，否则只是语法检查<br>eslint<br>eslint-loader<br>eslint-config-airbnb//规范介绍：<a href="http://www.tuicool.com/articles/NjAVB3A" target="_blank" rel="noopener">http://www.tuicool.com/articles/NjAVB3A</a><br>eslint-config-google<br>eslint-friendly-formatter<br>eslint-plugin-babel<br>eslint-plugin-import<br>eslint-plugin-jsx-a11y<br>eslint-plugin-react</p>
+<p>node:<br>connect<br>express<br>express-urlrewrite<br>memory-fs<br>mime<br>path<br>range-parser<br>serve-static</p>
+<p>其他：<br>eventsource-polyfil<br>moment<br>echarts<br>less<br>fetch-ie8<br>/Users/chengranwu/Practise/hexo-demo/source/_posts/hello-world.md</p>
+<h2 id="三-python"><a href="#三-python" class="headerlink" title="三.python"></a>三.python</h2><h3 id="1-pyenv"><a href="#1-pyenv" class="headerlink" title="1.pyenv"></a>1.pyenv</h3><p><img src="/images/tools/4.png" alt="图4"><br>![图 5(/images/tools/5.png)<br>有时候切换版本后需要重启 shell</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exec $SHELL</span><br></pre></td></tr></table></figure>
+<h3 id="2-virtualenv"><a href="#2-virtualenv" class="headerlink" title="2.virtualenv"></a>2.virtualenv</h3><p>感觉有时候直接 python、python3 这样使用更加方便。在项目中再使用 virtualenv 来独立出环境</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">virtualenv venv</span><br><span class="line">source venv/bin/activate</span><br><span class="line">venv/bin/pip install django</span><br></pre></td></tr></table></figure>
+<h3 id="3-pip"><a href="#3-pip" class="headerlink" title="3.pip"></a>3.pip</h3><p>python 包管理器</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/02/理解JavaScript中的this/" rel="prev" title="理解JavaScript中的this">
+                理解JavaScript中的this <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="伍二娃" />
+            
+              <p class="site-author-name" itemprop="name">伍二娃</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/wave52" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/P9JlKs8JMvMso7U" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/wave52" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/wu-cheng-ran" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、基本环境和工具"><span class="nav-number">1.</span> <span class="nav-text">一、基本环境和工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-iTerm-2-amp-amp-Oh-My-Zsh"><span class="nav-number">1.1.</span> <span class="nav-text">1.iTerm 2 &amp;&amp; Oh My Zsh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-vim"><span class="nav-number">1.2.</span> <span class="nav-text">2.vim</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-sublime"><span class="nav-number">1.3.</span> <span class="nav-text">3.sublime</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-homebrew"><span class="nav-number">1.4.</span> <span class="nav-text">4.homebrew</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、Node"><span class="nav-number">2.</span> <span class="nav-text">二、Node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-nvm"><span class="nav-number">2.1.</span> <span class="nav-text">1.nvm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-npm"><span class="nav-number">2.2.</span> <span class="nav-text">2.npm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-webpack"><span class="nav-number">2.3.</span> <span class="nav-text">3.webpack</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-python"><span class="nav-number">3.</span> <span class="nav-text">三.python</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-pyenv"><span class="nav-number">3.1.</span> <span class="nav-text">1.pyenv</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-virtualenv"><span class="nav-number">3.2.</span> <span class="nav-text">2.virtualenv</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-pip"><span class="nav-number">3.3.</span> <span class="nav-text">3.pip</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">伍二娃</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

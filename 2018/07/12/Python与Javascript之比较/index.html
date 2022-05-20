@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="之前开发过一些 Python 的东西，由于一直在使用 Javascript，所以会不自觉的使用一些 Javascript 的概念，语法什么的，经常掉到坑里。我觉得对于从 Javascript 转到 Python，有必要总结一下它们之间的差异。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python与Javascript之比较">
+<meta property="og:url" content="http://wuchengran.com/2018/07/12/Python与Javascript之比较/index.html">
+<meta property="og:site_name" content="wave52">
+<meta property="og:description" content="之前开发过一些 Python 的东西，由于一直在使用 Javascript，所以会不自觉的使用一些 Javascript 的概念，语法什么的，经常掉到坑里。我觉得对于从 Javascript 转到 Python，有必要总结一下它们之间的差异。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-11-23T16:13:48.179Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python与Javascript之比较">
+<meta name="twitter:description" content="之前开发过一些 Python 的东西，由于一直在使用 Javascript，所以会不自觉的使用一些 Javascript 的概念，语法什么的，经常掉到坑里。我觉得对于从 Javascript 转到 Python，有必要总结一下它们之间的差异。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wuchengran.com/2018/07/12/Python与Javascript之比较/"/>
+
+
+
+
+
+  <title>Python与Javascript之比较 | wave52</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wave52</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wuchengran.com/2018/07/12/Python与Javascript之比较/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="伍二娃">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wave52">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python与Javascript之比较</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-12T01:17:34+08:00">
+                2018-07-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>之前开发过一些 Python 的东西，由于一直在使用 Javascript，所以会不自觉的使用一些 Javascript 的概念，语法什么的，经常掉到坑里。我觉得对于从 Javascript 转到 Python，有必要总结一下它们之间的差异。</p>
+<a id="more"></a>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>Python 和 Javascript 都是脚本语言，所以它们有很多共同的特性，都需要解释器来运行，都是动态类型，都支持自动内存管理,都可以调用 <code>eval()</code> 来执行脚本等等脚本语言所共有的特性。</p>
+<p>然而它们也有很大的区别，Javascript 这设计之初是一种客户端的脚本语言，主要应用于浏览器，它的语法主要借鉴了 C，而 Python 由于其“优雅”，“明确”，“简单”的设计而广受欢迎，被应用于教育，科学计算，web 开发等不同的场景中。</p>
+<h2 id="编程范式"><a href="#编程范式" class="headerlink" title="编程范式"></a>编程范式</h2><p>Python 和 Javascript 都支持多种不同的编程范式，在面向对象的编程上面，它们有很大的区别。Javascript 的面向对象是基于原型（prototype）的， 对象的继承是由原型（也是对象）创建出来的，由原型对象创建出来的对象继承了原型链上的方法。而 Python 则是中规中矩的基于类（class）的继承，并天然的支持多态（polymophine）。</p>
+<h3 id="OO-in-Pyhton"><a href="#OO-in-Pyhton" class="headerlink" title="OO in Pyhton"></a>OO in Pyhton</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Employee</span>:</span></span><br><span class="line">   <span class="string">'Common base class for all employees'</span></span><br><span class="line">   empCount = <span class="number">0</span> <span class="comment">##类成员</span></span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, salary)</span>:</span></span><br><span class="line">      self.name = name</span><br><span class="line">      self.salary = salary</span><br><span class="line">      Employee.empCount += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">displayCount</span><span class="params">(self)</span>:</span></span><br><span class="line">     <span class="keyword">print</span> <span class="string">"Total Employee %d"</span> % Employee.empCount</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">displayEmployee</span><span class="params">(self)</span>:</span></span><br><span class="line">      <span class="keyword">print</span> <span class="string">"Name : "</span>, self.name,  <span class="string">", Salary: "</span>, self.salary</span><br><span class="line"><span class="comment">## 创建实例</span></span><br><span class="line">ea = Employee(<span class="string">"a"</span>,<span class="number">1000</span>)</span><br><span class="line">eb = Employee(<span class="string">"b"</span>,<span class="number">2000</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="OO-in-Javascript"><a href="#OO-in-Javascript" class="headerlink" title="OO in Javascript"></a>OO in Javascript</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Employee</span>(<span class="params">name, salary</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.salary = salary;</span><br><span class="line">  Employee.empCount += <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Employee.empCount = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">Employee.prototype.displayCount = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"Total Employee"</span> + Employee.empCount);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Employee.prototype.displayEmployee = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"Name"</span> + <span class="keyword">this</span>.name + <span class="string">"Salary"</span> + <span class="keyword">this</span>.salary);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//创建实例</span></span><br><span class="line"><span class="keyword">var</span> ea = <span class="keyword">new</span> Employee(<span class="string">"a"</span>, <span class="number">1000</span>);</span><br><span class="line"><span class="keyword">var</span> eb = <span class="keyword">new</span> Employee(<span class="string">"b"</span>, <span class="number">2000</span>);</span><br></pre></td></tr></table></figure>
+<p>因为是基于对象的继承，在 Javascript 中，我们没有办法在构造函数中使用类成员变量，需要在外部定义。Javascript 创建对象需要使用 new 关键字，而 Python 不需要。</p>
+<p>除了原生的基于原型的继承，还有很多利用闭包或者原型来模拟类继承的 Javascript OO 工具，因为不是语言本身的属性，我们就不讨论了。</p>
+<p>ES6 之后有了 class，JavaScript 的 OO 写起来更像那么一回事了，但 class 只是语法糖，本质仍然是原型。</p>
+<h2 id="线程模型"><a href="#线程模型" class="headerlink" title="线程模型"></a>线程模型</h2><p>在 Javascript 的世界中是没有多线程的概念的，并发使用过使用事件驱动的方式来进行的， 所有的 JavaScript 程序都运行在一个线程中。在 HTML5 中引入 web worker 可以并发的处理任务，但没有改变 Javascript 单线程的限制。</p>
+<p>Python 通过 thread 包支持多线程。</p>
+<h2 id="不可改变类型-（immutable-type）"><a href="#不可改变类型-（immutable-type）" class="headerlink" title="不可改变类型 （immutable type）"></a>不可改变类型 （immutable type）</h2><p>在 Python 中，有的数据类型是不可改变的，也就意味着这种类型的数据不能被修改，所有的修改都会返回新的对象。而在 Javascript 中所有的数据类型都是可以改变的。Python 引入不可改变类型我认为是为了支持线程安全，而因为 Javascript 是单线程模型，所以没有必要引入不可改变类型。</p>
+<p>当然在 Javascript 可以定义一个对象的属性为只读。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;&#125;;</span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj, <span class="string">"prop"</span>, &#123;</span><br><span class="line">  value: <span class="string">"test"</span>,</span><br><span class="line">  writable: <span class="literal">false</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>或者参考 React 的思想，使用 immutable.js 这样的库。</p>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>Javascript 的数据类型比较简单，有 object、string、boolean、number、null 和 undefined，总共六种，ES6 又加入了 symbol。</p>
+<p>Python 有五个内置的简单数据类型 bool、int、long、float 和 complex，另外还有容器类型，代码类型，内部类型等等。</p>
+<h3 id="布尔"><a href="#布尔" class="headerlink" title="布尔"></a>布尔</h3><p>Javascript 有 true 和 false。Python 有 True 和 False。它们除了大小写没有什么区别。</p>
+<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p>Javascript 采用 UTF16 编码。</p>
+<p>Python 使用 ASCII 码。需要调用 encode、decode 来进行编码转换。使用 u 作为前缀可以指定字符串使用 Unicode 编码。</p>
+<h3 id="数值"><a href="#数值" class="headerlink" title="数值"></a>数值</h3><p>Javascript 中所有的数值类型都是实现为 64 位浮点数。支持 NaN(Not a number)，正负无穷大（+/-Infinity）。n</p>
+<p>Python 拥有诸多的数值类型，其中的复数类型非常方便，所以在 Python 在科研和教育领域很受欢迎。这应该也是其中一个原因吧。Python 中没有定义 NaN，除零操作会引发异常。</p>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>Javascript 内置了 array 类型（array 也是 object）</p>
+<p>Python 的列表（List）和 Javascript 的 Array 比较接近，而元组（Tuple）可以理解为不可改变的列表。</p>
+<p>除了求长度在 Python 中是使用内置方法 len 外，基本上 Javascript 和 Python 都提供了类似的方法来操作列表。Python 中对列表下标的操作非常灵活也非常方便，这是 Javascript 所没有的。例如 l[5:-1],l[:6]等等。</p>
+<h3 id="字典、哈希表、对象"><a href="#字典、哈希表、对象" class="headerlink" title="字典、哈希表、对象"></a>字典、哈希表、对象</h3><p>Javascript 中大量的使用{}这样的对象字面量来创建对象，这些对象和字典没有什么区别，可以使用[]或者.来访问对象的成员。可以动态的添加，修改和删除成员。可以认为对象就是 Javascript 的字典或者哈希表。对象的 key 必须是字符串。</p>
+<p>Python 内置了哈希表（dictS），和 Javascript 不同的是，dictS 可以有各种类型的 key 值。</p>
+<p>ES6 引入了 Map、WeakMap、Set、WeakSet。</p>
+<h3 id="空值"><a href="#空值" class="headerlink" title="空值"></a>空值</h3><p>Javascript 定义了两种空值。 undefined 表示变量没有被初始化，null 表示变量已经初始化但是值为空。</p>
+<p>Python 中不存在未初始化的值，如果一个变量值为空，Python 使用 None 来表示。</p>
+<p>Javascript 中变量的声明和初始化</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">v1;</span><br><span class="line">v2 = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">var</span> v3;</span><br><span class="line"><span class="keyword">var</span> v4 = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">var</span> v5 = <span class="string">"something"</span>;</span><br></pre></td></tr></table></figure>
+<p>Python 中变量的声明和初始化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">v1 = <span class="keyword">None</span></span><br><span class="line">v2 = <span class="string">'someting'</span></span><br></pre></td></tr></table></figure>
+<p>ES6 引入了 const、let。</p>
+<p>Javascript 中检查某变量的存在性：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!v) &#123;</span><br><span class="line">  <span class="comment">// do something if v does not exist or is null or is false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (v === <span class="literal">undefined</span>) &#123;</span><br><span class="line">  <span class="comment">// do something if v does not initialized</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意使用!v 来检查 v 是否初始化是有歧义的因为有许多种情况!v 都会返回 true</p>
+<p>Python 中检查某变量的存在性：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    v</span><br><span class="line"><span class="keyword">except</span> NameError</span><br><span class="line">    <span class="comment">## do something if v does not exist</span></span><br></pre></td></tr></table></figure>
+<p>在 Python 中也可以通过检查变量是不是存在于局部 locals() 或者全局 globals() 来判断是否存在该变量。</p>
+<h3 id="类型检查"><a href="#类型检查" class="headerlink" title="类型检查"></a>类型检查</h3><p>Javascript 可以通过 typeof 来获得某个变量的类型：</p>
+<p>typeof in Javascript 的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> <span class="number">3</span>; <span class="comment">// "number"</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="string">"abc"</span>; <span class="comment">// "string"</span></span><br><span class="line"><span class="keyword">typeof</span> &#123;&#125;; <span class="comment">// "object"</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="literal">true</span>; <span class="comment">// "boolean"</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="literal">undefined</span>; <span class="comment">// "undefined"</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;; <span class="comment">// "function"</span></span><br><span class="line"><span class="keyword">typeof</span> []; <span class="comment">// "object"</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="literal">null</span>; <span class="comment">// "object"</span></span><br></pre></td></tr></table></figure>
+<p>要非常小心的使用 typeof，从上面的例子你可以看到，typeof null 居然是 object。因为 javascript 的弱类型特性，想要获得更实际的类型，还需要结合使用 instanceof，constructor 等概念。具体请参考这篇文章</p>
+<p>Python 提供内置方法 type 来获得数据的类型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>type([]) <span class="keyword">is</span> list</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(&#123;&#125;) <span class="keyword">is</span> dict</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(<span class="string">''</span>) <span class="keyword">is</span> str</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(<span class="number">0</span>) <span class="keyword">is</span> int</span><br><span class="line"><span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+<p>同时也可以通过 isinstance() 来判断类的类型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">isinstance(A(), A)  <span class="comment"># returns True</span></span><br><span class="line">type(A()) == A      <span class="comment"># returns True</span></span><br><span class="line">isinstance(B(), A)    <span class="comment"># returns True</span></span><br><span class="line">type(B()) == A        <span class="comment"># returns False</span></span><br></pre></td></tr></table></figure>
+<p>但是注意 Python 的 class style 发生过一次变化，不是每个版本的 Python 运行上述代码的行为都一样，在 old style 中，所有的实例的 type 都是‘instance’，所以用 type 方法来检查也不是一个好的方法。这一点和 Javascript 很类似。</p>
+<h3 id="自动类型转换-隐式类型转换"><a href="#自动类型转换-隐式类型转换" class="headerlink" title="自动类型转换(隐式类型转换)"></a>自动类型转换(隐式类型转换)</h3><p>当操作不同类型一起进行运算的时候，Javascript 总是尽可能的进行自动的类型转换，这很方便，当然也很容易出错。尤其是在进行数值和字符串操作的时候，一不小心就会出错。我以前经常会计算 SVG 中的各种数值属性，诸如 x，y 坐标之类的，当你一不小心把一个字符串加到数值上的时候，Javascript 会自动转换出一个数值，往往是 NaN，这样 SVG 就完全画不出来啦，因为自动转化是合法的，找到出错的地方也非常困难。</p>
+<p>Python 在这一点上就非常的谨慎，一般不会在不同的类型之间做自动的转换。</p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><h3 id="风格"><a href="#风格" class="headerlink" title="风格"></a>风格</h3><p>Python 使用缩进来决定逻辑行的结束非常具有创造性，这也许是 Python 最独特的属性了，当然也有人对此颇具微词，尤其是需要修改重构代码的时候，修改缩进往往会引起不小的麻烦。</p>
+<p>Javascript 虽然名字里有 Java，它的风格也有那么一点像 Java，可是它和 Java 就好比雷峰塔和雷锋一样，真的没有半毛钱的关系。到时语法上和 C 比较类似。这里必须要提到的是 coffeescript 作为构建与 Javascript 之上的一种语言，采用了类似 Python 的语法风格，也是用缩进来决定逻辑行。</p>
+<p>Python 风格</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(list)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(list)):</span><br><span class="line">        <span class="keyword">print</span> list[i]</span><br></pre></td></tr></table></figure>
+<p>Javascript 风格</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params">list</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = list.length(); i &lt; len; i++) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(list[i]);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从以上的两个代码的例子可以看出，Python 确实非常简洁。</p>
+<h3 id="作用范围和包管理"><a href="#作用范围和包管理" class="headerlink" title="作用范围和包管理"></a>作用范围和包管理</h3><p>Javascript 的作用域是由方法 function 来定义的，也就是说同一个方法内部拥有相同的作用域，即函数作用域。这个严重区别与 C 语言使用{}来定义的作用域。Closure 是 Javascript 最有用的一个特性。</p>
+<p>Python 的作用域是由 module，function，class 来定义的。</p>
+<p>Python 的 import 可以很好的管理依赖和作用域，而 Javascript 没有原生的包管理机制，需要借助 AMD、CMD 来异步的加载依赖的 js 文件。</p>
+<p>ES6 加强了块级作用域，浏览器、node 也开始支持 es module。</p>
+<h3 id="赋值逻辑操作符"><a href="#赋值逻辑操作符" class="headerlink" title="赋值逻辑操作符"></a>赋值逻辑操作符</h3><p>Javascript 使用=赋值，拥有判断相等（==）和全等（===）两种相等的判断。其它的逻辑运算符有&amp;&amp; 和||，和 C 语言类似。</p>
+<p>Python 中没有全等，或和与使用的时 and 和 or，更接近自然语言。Python 中没有三元运算符 A ：B ？C，通常的写法是</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(A <span class="keyword">and</span> B) <span class="keyword">or</span> C</span><br></pre></td></tr></table></figure>
+<p>因为这样写有一定的缺陷，也可以写作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">B <span class="keyword">if</span> A <span class="keyword">else</span> C</span><br></pre></td></tr></table></figure>
+<p>Python 对赋值操作的一个重要的改进是不允许赋值操作返回赋值的结果，这样做的好处是避免出现在应该使用相等判断的时候错误的使用了赋值操作。因为这两个操作符实在太像了，而且从自然语言上来说它们也没有区别。</p>
+<h3 id="运算符"><a href="#运算符" class="headerlink" title="++运算符"></a>++运算符</h3><p>Python 不支持++运算符，没错你再也不需要根据++符号在变量的左右位置来思考到底是先加一再赋值呢还是先赋值再加一。</p>
+<h3 id="连续赋值"><a href="#连续赋值" class="headerlink" title="连续赋值"></a>连续赋值</h3><p>利用元组（tuple），Python 可以一次性的给多个变量赋值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY) = range(<span class="number">7</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="函数参数"><a href="#函数参数" class="headerlink" title="函数参数"></a>函数参数</h3><p>Python 的函数参数支持命名参数和可选参数（提供默认值），使用起来很方便，Javascript 以前不支持可选参数和默认值（可以通过对 arguments 的解析来支持）（ES6 已支持）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">info</span><span class="params">(object, spacing=<span class="number">10</span>, collapse=<span class="number">1</span>)</span>:</span></span><br><span class="line">    ... ...</span><br></pre></td></tr></table></figure>
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><h3 id="立即调用函数表达式-（IIFE）"><a href="#立即调用函数表达式-（IIFE）" class="headerlink" title="立即调用函数表达式 （IIFE）"></a>立即调用函数表达式 （IIFE）</h3><p>Javascript 的一个方便的特性是可以立即调用一个刚刚声明的匿名函数。也有人称之为自调用匿名函数。</p>
+<p>下面的代码是一个 module 模式的例子，使用闭包来保存状态实现良好的封装。这样的代码可以用在无需重用的场合。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> counter = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> i = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    get: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> i;</span><br><span class="line">    &#125;,</span><br><span class="line">    set: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">      i = val;</span><br><span class="line">    &#125;,</span><br><span class="line">    increment: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> ++i;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<p>Python 没有相应的支持。</p>
+<h3 id="生成器和迭代器（Generators-amp-Iterator）"><a href="#生成器和迭代器（Generators-amp-Iterator）" class="headerlink" title="生成器和迭代器（Generators &amp; Iterator）"></a>生成器和迭代器（Generators &amp; Iterator）</h3><p>在我接触到的 Python 代码中，大量的使用这样的生成器的模式。</p>
+<p>Python 生成器的例子</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># a generator that yields items instead of returning a list</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">firstn</span><span class="params">(n)</span>:</span></span><br><span class="line">    num = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> num &lt; n:</span><br><span class="line">        <span class="keyword">yield</span> num</span><br><span class="line">        num += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">sum_of_first_n = sum(firstn(<span class="number">1000000</span>))</span><br></pre></td></tr></table></figure>
+<p>ES6 中引入了一些列的新特性，其中就包括生成器和迭代器。</p>
+<p>Javascript 迭代器和生成器的例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fib</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> i = <span class="number">0</span>, j = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">yield</span> i;</span><br><span class="line">    <span class="keyword">var</span> t = i;</span><br><span class="line">    i = j;</span><br><span class="line">    j += t;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;；</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> g = fib();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &amp;lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(g.next());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="列表（字典、集合）映射表达式-（List、Dict、Set-Comprehension）"><a href="#列表（字典、集合）映射表达式-（List、Dict、Set-Comprehension）" class="headerlink" title="列表（字典、集合）映射表达式 （List、Dict、Set Comprehension）"></a>列表（字典、集合）映射表达式 （List、Dict、Set Comprehension）</h3><p>Python 的映射表达式可以非常方便的帮助用户构造列表、字典、集合等内置数据类型。</p>
+<p>下面是列表映射表达式使用的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>[x + <span class="number">3</span> <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">4</span>)]</span><br><span class="line">[<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>&#123;x + <span class="number">3</span> <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">4</span>)&#125;</span><br><span class="line">&#123;<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>&#123;x: x + <span class="number">3</span> <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">4</span>)&#125;</span><br><span class="line">&#123;<span class="number">0</span>: <span class="number">3</span>, <span class="number">1</span>: <span class="number">4</span>, <span class="number">2</span>: <span class="number">5</span>, <span class="number">3</span>: <span class="number">6</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>Javascript 曾经有传说要引入，后面没消息了。MDN 上还能搜到</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 非标准！！</span></span><br><span class="line"><span class="keyword">var</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"><span class="keyword">var</span> doubled = [i * <span class="number">2</span> <span class="keyword">for</span> (i <span class="keyword">of</span> numbers)];</span><br></pre></td></tr></table></figure>
+<h3 id="Lamda-表达式-（Lamda-Expression-）"><a href="#Lamda-表达式-（Lamda-Expression-）" class="headerlink" title="Lamda 表达式 （Lamda Expression ）"></a>Lamda 表达式 （Lamda Expression ）</h3><p>Lamda 表达式是一种匿名函数，基于著名的 λ 演算。许多语言诸如 C#，Java 都提供了对 lamda 的支持。Pyhton 就是其中之一。Javascript ES6 已支持箭头函数</p>
+<h3 id="装饰器（Decorators）"><a href="#装饰器（Decorators）" class="headerlink" title="装饰器（Decorators）"></a>装饰器（Decorators）</h3><p>Decorator 是一种设计模式，大部分语言都可以支持这样的模式，Python 提供了原生的对该模式的支持，算是一种对程序员的便利吧。Javascript ES6 已支持。</p>
+<p>更多 decorator 的内容，请参考<a href="https://wiki.python.org/moin/PythonDecorators" target="_blank" rel="noopener">https://wiki.python.org/moin/PythonDecorators</a></p>
+<p>本人对 Javascript 和 Python 的认识有限，欢迎大家提出宝贵意见。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/09/2018-5/" rel="next" title="2018年5月面试题">
+                <i class="fa fa-chevron-left"></i> 2018年5月面试题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/16/React Fiber 漫谈/" rel="prev" title="React Fiber 漫谈">
+                React Fiber 漫谈 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="伍二娃" />
+            
+              <p class="site-author-name" itemprop="name">伍二娃</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/wave52" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/P9JlKs8JMvMso7U" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/wave52" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/wu-cheng-ran" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编程范式"><span class="nav-number">2.</span> <span class="nav-text">编程范式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OO-in-Pyhton"><span class="nav-number">2.1.</span> <span class="nav-text">OO in Pyhton</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OO-in-Javascript"><span class="nav-number">2.2.</span> <span class="nav-text">OO in Javascript</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程模型"><span class="nav-number">3.</span> <span class="nav-text">线程模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不可改变类型-（immutable-type）"><span class="nav-number">4.</span> <span class="nav-text">不可改变类型 （immutable type）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型"><span class="nav-number">5.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#布尔"><span class="nav-number">5.1.</span> <span class="nav-text">布尔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串"><span class="nav-number">5.2.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数值"><span class="nav-number">5.3.</span> <span class="nav-text">数值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表"><span class="nav-number">5.4.</span> <span class="nav-text">列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字典、哈希表、对象"><span class="nav-number">5.5.</span> <span class="nav-text">字典、哈希表、对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#空值"><span class="nav-number">5.6.</span> <span class="nav-text">空值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型检查"><span class="nav-number">5.7.</span> <span class="nav-text">类型检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动类型转换-隐式类型转换"><span class="nav-number">5.8.</span> <span class="nav-text">自动类型转换(隐式类型转换)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法"><span class="nav-number">6.</span> <span class="nav-text">语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#风格"><span class="nav-number">6.1.</span> <span class="nav-text">风格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作用范围和包管理"><span class="nav-number">6.2.</span> <span class="nav-text">作用范围和包管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#赋值逻辑操作符"><span class="nav-number">6.3.</span> <span class="nav-text">赋值逻辑操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运算符"><span class="nav-number">6.4.</span> <span class="nav-text">++运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连续赋值"><span class="nav-number">6.5.</span> <span class="nav-text">连续赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数参数"><span class="nav-number">6.6.</span> <span class="nav-text">函数参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它"><span class="nav-number">7.</span> <span class="nav-text">其它</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#立即调用函数表达式-（IIFE）"><span class="nav-number">7.1.</span> <span class="nav-text">立即调用函数表达式 （IIFE）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成器和迭代器（Generators-amp-Iterator）"><span class="nav-number">7.2.</span> <span class="nav-text">生成器和迭代器（Generators &amp; Iterator）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表（字典、集合）映射表达式-（List、Dict、Set-Comprehension）"><span class="nav-number">7.3.</span> <span class="nav-text">列表（字典、集合）映射表达式 （List、Dict、Set Comprehension）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lamda-表达式-（Lamda-Expression-）"><span class="nav-number">7.4.</span> <span class="nav-text">Lamda 表达式 （Lamda Expression ）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#装饰器（Decorators）"><span class="nav-number">7.5.</span> <span class="nav-text">装饰器（Decorators）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">伍二娃</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
